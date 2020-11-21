@@ -12,7 +12,6 @@ close all; clear all;
 % videoMPEG = VideoWriter(sssMPEG,'MPEG-4');
 % open(videoMPEG)
 
-%load netTransferAlex
 load netTransferGoogle
 
 sz = netTransfer.Layers(1).InputSize;

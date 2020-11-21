@@ -80,7 +80,7 @@ analyzeNetwork(layers)
 %Train the network that consists of the transferred and new layers. By default, trainNetwork uses a GPU if one is available (requires Parallel Computing Toolbox™ and a CUDA® enabled GPU with compute capability 3.0 or higher). Otherwise, it uses a CPU. You can also specify the execution environment by using the 'ExecutionEnvironment' name-value pair argument of trainingOptions.
 netTransfer = trainNetwork(imdsTrain,layers,options);
 
-save netTransfer netTransfer
+save netTransferAlex netTransfer
 
 %% Classify Validation Images
 % Classify the validation images using the fine-tuned network.
