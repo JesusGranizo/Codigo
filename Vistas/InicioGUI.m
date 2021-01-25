@@ -1,4 +1,4 @@
-classdef InicioVista
+classdef InicioGUI
     
     properties
         Titulo          matlab.ui.control.Label
@@ -11,24 +11,16 @@ classdef InicioVista
     end
     
     methods (Access = private)
-        
-        function BotonGoogleNetButtonPushed(app, event)
-            app.AlexNetTitle.Visible = false;
-        end
-    end
-    
-    methods (Access = public)
-
-        function app = InicioVista(panel)
+        function createComponents(app, panel)
             app.Titulo = uilabel(panel);
             app.Titulo.FontSize = 40;
             app.Titulo.FontWeight = 'bold';
-            app.Titulo.Position = [40 480 500 54];
+            app.Titulo.Position = [40 480 500 70];
             app.Titulo.Text = 'Ciudades Inteligentes';
             
-            app.GoogleImage = uiimage(panel);
-            app.GoogleImage.Position = [90 330 80 80];
-            app.GoogleImage.ImageSource = 'alexNet.svg';
+            app.AlexNetImage = uiimage(panel);
+            app.AlexNetImage.Position = [90 330 80 80];
+            app.AlexNetImage.ImageSource = 'alexnet.svg';
             
             app.AlexNetTitle = uilabel(panel);
             app.AlexNetTitle.FontSize = 30;
@@ -36,7 +28,7 @@ classdef InicioVista
             app.AlexNetTitle.Text = 'AlexNet';
             
             app.AlexNetButton = uibutton(panel, 'push');
-            %app.AlexNetButton.ButtonPushedFcn = 'AlexNetButtonPushed()';
+            app.AlexNetButton.ButtonPushedFcn = @app.BotonAlexNetPushed;
             app.AlexNetButton.Position = [580 350 150 40];
             app.AlexNetButton.Text = 'Seleccionar';
             app.AlexNetButton.FontSize = 15;
@@ -51,10 +43,25 @@ classdef InicioVista
             app.GoogleTitle.Text = 'GoogleNet';
             
             app.GoogleButton = uibutton(panel, 'push');
-            app.GoogleButton.ButtonPushedFcn =  createCallbackFcn(app, @BotonGoogleNetButtonPushed, true);
+            app.GoogleButton.ButtonPushedFcn = @app.BotonGooglePushed;
             app.GoogleButton.Position = [580 150 150 40];
             app.GoogleButton.Text = 'Seleccionar';
             app.GoogleButton.FontSize = 15;
+        end
+        
+        function BotonAlexNetPushed(app, button, event)
+            Controller.getInstance().execute(Events.GUI_PRINCIPAL_ALEXNET, nan);
+        end
+        
+        function BotonGooglePushed(app, button, event)
+            Controller.getInstance().execute(Events.GUI_PRINCIPAL_GOOGLENET, nan);
+        end
+    end
+    
+    methods (Access = public)
+
+        function app = InicioGUI(panel)
+            app.createComponents(panel);
         end
     end
 end

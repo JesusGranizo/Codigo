@@ -1,4 +1,4 @@
-classdef Dispatcher
+classdef DispatcherImp
     
     properties
         Ventana matlab.ui.Figure
@@ -10,7 +10,7 @@ classdef Dispatcher
     end
     
     methods (Access = public)
-        function app = Dispatcher
+        function app = DispatcherImp
             app.Ventana = uifigure('Visible', 'off');
             app.Ventana.Position = [100 100 1000 600];
             app.Ventana.Name = 'Trabajo Fin de Grado';
@@ -21,17 +21,19 @@ classdef Dispatcher
             app.Principal.Position = [20 20 960 560];
         end
         
-        function loadVista(app, index)
+        function loadVista(app, event)
             
             import Vistas.*;
-            index = lower(index);   
+             
             delete(app.Principal.Children)
             
-            switch index
-                case "inicio"
-                    InicioVista(app.Principal);
-                case "menu"
-                    Menu(app.Principal);
+            switch event
+                case Events.GUI_INICIO
+                    InicioGUI(app.Principal);
+                case Events.GUI_PRINCIPAL_ALEXNET
+                    PrincipalGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_PRINCIPAL_GOOGLENET
+                    PrincipalGUI(app.Principal, Events.MODE_GOOGLENET);
             end
         end
     end

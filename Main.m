@@ -1,12 +1,10 @@
 classdef Main
     
-    properties
-        controller Controller
-    end
-    
     methods
         function app = Main()
-            app.controller = Controller();
+            clc; clear;
+            clear all;
+            Controller.getInstance().execute(Events.GUI_INICIO, nan);
         end
 
     end
