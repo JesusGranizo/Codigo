@@ -1,15 +1,15 @@
 classdef PrincipalGUI
     
     properties
-        Titulo          matlab.ui.control.Label
-        modo            string
-        TrainingImage    matlab.ui.control.Image
-        TrainingTitle    matlab.ui.control.Label
-        TrainingButton   matlab.ui.control.Button
-        DetectionImage     matlab.ui.control.Image
-        DetectionTitle     matlab.ui.control.Label
-        DetectionButton    matlab.ui.control.Button
-        BackButton    matlab.ui.control.Button
+        Titulo              matlab.ui.control.Label
+        modo                string
+        TrainingImage       matlab.ui.control.Image
+        TrainingTitle       matlab.ui.control.Label
+        TrainingButton      matlab.ui.control.Button
+        DetectionImage      matlab.ui.control.Image
+        DetectionTitle      matlab.ui.control.Label
+        DetectionButton     matlab.ui.control.Button
+        BackButton          matlab.ui.control.Button
     end
     
     methods (Access = private)
@@ -58,16 +58,21 @@ classdef PrincipalGUI
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Volver';
+            app.BackButton.Text = 'Atrás';
             app.BackButton.FontSize = 15;
         end
         
         function TrainingButtonPushed(app, button, event)
-            Controller.getInstance().execute(Events.GUI_INICIO, nan);
+            switch app.modo
+                case "alexnet"
+                    Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
+                case "googlenet"
+                    Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
+            end
         end
         
         function DetectionButtonPushed(app, button, event)
-            Controller.getInstance().execute(Events.GUI_INICIO, nan);
+            
         end
         
         function BackButtonPushed(app, button, event)
