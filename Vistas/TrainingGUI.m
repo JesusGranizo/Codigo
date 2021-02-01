@@ -95,9 +95,22 @@ classdef TrainingGUI
         end
         
         function VisualButtonPushed(app, button, event)
+            
+            switch app.modo
+                case 'alexnet'
+                    winopen('VehiculosAlexNet/');
+                case 'googlenet'
+                    winopen('VehiculosGoogleNet/');
+            end
         end
         
         function UploadButtonPushed(app, button, event)
+            switch app.modo
+                case "alexnet"
+                    Controller.getInstance().execute(Events.GUI_UPLOAD_ALEXNET, nan);
+                case "googlenet"
+                    Controller.getInstance().execute(Events.GUI_UPLOAD_GOOGLENET, nan);
+            end
         end
         
         function TrainingButtonPushed(app, button, event)

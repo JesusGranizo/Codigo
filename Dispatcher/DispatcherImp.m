@@ -34,7 +34,6 @@ classdef DispatcherImp
             app.TitleMenu.Text = 'Menú';
             
             app.MenuGUI = MenuGUI(app.Menu);
-            x = 4+2;
         end
         
         function loadVista(app, event)
@@ -57,6 +56,10 @@ classdef DispatcherImp
                     TrainingGUI(app.Principal, Events.MODE_ALEXNET);
                 case Events.GUI_TRAINING_GOOGLENET
                     TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                case Events.GUI_UPLOAD_ALEXNET
+                    UploadGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_UPLOAD_GOOGLENET
+                    UploadGUI(app.Principal, Events.MODE_GOOGLENET);
             end
         end
     end
