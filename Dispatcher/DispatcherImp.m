@@ -48,18 +48,36 @@ classdef DispatcherImp
             switch event
                 case Events.GUI_INICIO
                     InicioGUI(app.Principal);
+                    
                 case Events.GUI_PRINCIPAL_ALEXNET
                     PrincipalGUI(app.Principal, Events.MODE_ALEXNET);
                 case Events.GUI_PRINCIPAL_GOOGLENET
                     PrincipalGUI(app.Principal, Events.MODE_GOOGLENET);
-                case Events.GUI_TRAINING_ALEXNET
-                    TrainingGUI(app.Principal, Events.MODE_ALEXNET);
-                case Events.GUI_TRAINING_GOOGLENET
-                    TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                    
+                case Events.GUI_GOTRAINING_ALEXNET
+                    GoTrainingGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_GOTRAINING_GOOGLENET
+                    GoTrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                    
                 case Events.GUI_UPLOAD_ALEXNET
                     UploadGUI(app.Principal, Events.MODE_ALEXNET);
                 case Events.GUI_UPLOAD_GOOGLENET
                     UploadGUI(app.Principal, Events.MODE_GOOGLENET);
+                    
+                case Events.GUI_VISUALIZATION_ALEXNET
+                    TrainingGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_VISUALIZATION_GOOGLENET
+                    TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                    
+                case Events.GUI_VISUALIZATION_ALEXNET
+                    GoTrainingGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_VISUALIZATION_GOOGLENET
+                    GoTrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                
+                case Events.GUI_TRAINING_ALEXNET
+                    TrainingGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_TRAINING_GOOGLENET
+                    TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
             end
         end
     end

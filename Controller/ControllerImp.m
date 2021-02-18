@@ -6,10 +6,10 @@ classdef ControllerImp
             
             import Events
             
-            if(isnan(data))
+            if isa(data, 'double') && isnan(data)
                 Dispatcher.getInstance().loadVista(event);
             else
-                disp(data);
+                CommandFactory.getInstance().execute(event, data);
             end
         end
     end

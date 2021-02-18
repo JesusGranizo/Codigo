@@ -32,12 +32,12 @@ classdef PrincipalGUI
             app.TrainingTitle = uilabel(panel);
             app.TrainingTitle.FontSize = 30;
             app.TrainingTitle.Position = [240 340 400 67];
-            app.TrainingTitle.Text = 'Entrenamiento';
+            app.TrainingTitle.Text = 'Training';
             
             app.TrainingButton = uibutton(panel, 'push');
             app.TrainingButton.ButtonPushedFcn = @app.TrainingButtonPushed;
             app.TrainingButton.Position = [650 350 150 40];
-            app.TrainingButton.Text = 'Seleccionar';
+            app.TrainingButton.Text = 'Select';
             app.TrainingButton.FontSize = 15;
             
             app.DetectionImage = uiimage(panel);
@@ -47,27 +47,27 @@ classdef PrincipalGUI
             app.DetectionTitle = uilabel(panel);
             app.DetectionTitle.FontSize = 30;
             app.DetectionTitle.Position = [240 140 400 67];
-            app.DetectionTitle.Text = 'Detección de Vehículos';
+            app.DetectionTitle.Text = 'Vehicle Detection';
             
             app.DetectionButton = uibutton(panel, 'push');
             app.DetectionButton.ButtonPushedFcn = @app.DetectionButtonPushed;
             app.DetectionButton.Position = [650 150 150 40];
-            app.DetectionButton.Text = 'Seleccionar';
+            app.DetectionButton.Text = 'Select';
             app.DetectionButton.FontSize = 15;
             
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Atrás';
-            app.BackButton.FontSize = 15;
+            app.BackButton.Text = 'Back';
+            app.BackButton.FontSize = 16;
         end
         
         function TrainingButtonPushed(app, button, event)
             switch app.modo
                 case "alexnet"
-                    Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
+                    Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
                 case "googlenet"
-                    Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
+                    Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
             end
         end
         

@@ -10,11 +10,13 @@ classdef MenuGUI
         AlexNetImageUpload              matlab.ui.container.TreeNode
         AlexNetImageVisualization       matlab.ui.container.TreeNode
         AlexNetModelTraining            matlab.ui.container.TreeNode
+        AlexNetVehicleDetection         matlab.ui.container.TreeNode
         GoogleNet                       matlab.ui.container.TreeNode
         GoogleNetTraining               matlab.ui.container.TreeNode
         GoogleNetImageUpload            matlab.ui.container.TreeNode
         GoogleNetImageVisualization     matlab.ui.container.TreeNode
         GoogleNetModelTraining          matlab.ui.container.TreeNode
+        GoogleNetVehicleDetection       matlab.ui.container.TreeNode
     end
     
     methods (Access = private)
@@ -25,22 +27,28 @@ classdef MenuGUI
         function SelectionMenu(app, object, event)
             if (app.Menu.SelectedNodes.Text == "Inicio")
                 Controller.getInstance().execute(Events.GUI_INICIO, nan);
+                
             elseif (app.Menu.SelectedNodes.Text == "AlexNet")
                 Controller.getInstance().execute(Events.GUI_PRINCIPAL_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Training" &&  app.Menu.SelectedNodes.Parent.Text == "AlexNet")
-                Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
+                Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Image Upload" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
                 Controller.getInstance().execute(Events.GUI_UPLOAD_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Image Visualization" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
-                Controller.getInstance().execute(Events.GUI_VISUALIZATION_ALEXNET, nan);
+                Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Model Training" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
+                Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
+                
             elseif (app.Menu.SelectedNodes.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_PRINCIPAL_GOOGLENET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Training" &&  app.Menu.SelectedNodes.Parent.Text == "GoogleNet")
-                Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
+                Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Image Upload" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_UPLOAD_GOOGLENET, nan);
-            elseif (app.Menu.SelectedNodes.Text == "Image Visualization" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
-                Controller.getInstance().execute(Events.GUI_VISUALIZATION_GOOGLENET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Image Visualization" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
+                Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Model Training" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
+                Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
             end
         end
     end
@@ -71,6 +79,9 @@ classdef MenuGUI
             app.AlexNetModelTraining = uitreenode(app.AlexNetTraining);
             app.AlexNetModelTraining.Text = 'Model Training';
             
+            app.AlexNetVehicleDetection = uitreenode(app.AlexNet);
+            app.AlexNetVehicleDetection.Text = 'Vehicle Detection';
+            
             app.GoogleNet = uitreenode(app.Inicio);
             app.GoogleNet.Text = 'GoogleNet';
             
@@ -85,6 +96,9 @@ classdef MenuGUI
             
             app.GoogleNetModelTraining = uitreenode(app.GoogleNetTraining);
             app.GoogleNetModelTraining.Text = 'Model Training';
+            
+            app.GoogleNetVehicleDetection = uitreenode(app.GoogleNet);
+            app.GoogleNetVehicleDetection.Text = 'Vehicle Detection';
             
             expand(app.Menu, 'all');
         end
@@ -102,9 +116,9 @@ classdef MenuGUI
                     app.Menu.SelectedNodes = [app.AlexNet];
                 case Events.GUI_PRINCIPAL_GOOGLENET
                     app.Menu.SelectedNodes = [app.GoogleNet];
-                case Events.GUI_TRAINING_ALEXNET
+                case Events.GUI_GOTRAINING_ALEXNET
                     app.Menu.SelectedNodes = [app.AlexNetTraining];
-                case Events.GUI_TRAINING_GOOGLENET
+                case Events.GUI_GOTRAINING_GOOGLENET
                     app.Menu.SelectedNodes = [app.GoogleNetTraining];
             end
         end

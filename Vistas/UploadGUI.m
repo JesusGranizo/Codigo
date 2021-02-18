@@ -21,9 +21,9 @@ classdef UploadGUI
         function BackButtonPushed(app, button, event)
             switch app.modo
                 case "alexnet"
-                    Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
+                    Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
                 case "googlenet"
-                    Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
+                    Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
             end
         end
         

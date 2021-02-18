@@ -16,7 +16,7 @@ classdef InicioGUI
             app.Titulo.FontSize = 40;
             app.Titulo.FontWeight = 'bold';
             app.Titulo.Position = [40 480 500 70];
-            app.Titulo.Text = 'Ciudades Inteligentes';
+            app.Titulo.Text = 'Smart Cities';
             
             app.AlexNetImage = uiimage(panel);
             app.AlexNetImage.Position = [90 330 80 80];
@@ -30,7 +30,7 @@ classdef InicioGUI
             app.AlexNetButton = uibutton(panel, 'push');
             app.AlexNetButton.ButtonPushedFcn = @app.BotonAlexNetPushed;
             app.AlexNetButton.Position = [580 350 150 40];
-            app.AlexNetButton.Text = 'Seleccionar';
+            app.AlexNetButton.Text = 'Select';
             app.AlexNetButton.FontSize = 15;
             
             app.GoogleImage = uiimage(panel);
@@ -45,7 +45,7 @@ classdef InicioGUI
             app.GoogleButton = uibutton(panel, 'push');
             app.GoogleButton.ButtonPushedFcn = @app.BotonGooglePushed;
             app.GoogleButton.Position = [580 150 150 40];
-            app.GoogleButton.Text = 'Seleccionar';
+            app.GoogleButton.Text = 'Select';
             app.GoogleButton.FontSize = 15;
         end
         
