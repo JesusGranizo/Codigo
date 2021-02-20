@@ -38,6 +38,8 @@ classdef MenuGUI
                 Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Model Training" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
                 Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Vehicle Detection" &&  app.Menu.SelectedNodes.Parent.Text == "AlexNet")
+                Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
                 
             elseif (app.Menu.SelectedNodes.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_PRINCIPAL_GOOGLENET, nan);
@@ -49,6 +51,8 @@ classdef MenuGUI
                 Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Model Training" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Vehicle Detection" &&  app.Menu.SelectedNodes.Parent.Text == "GoogleNet")
+                Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_GOOGLENET, nan);
             end
         end
     end

@@ -58,6 +58,11 @@ classdef DispatcherImp
                     GoTrainingGUI(app.Principal, Events.MODE_ALEXNET);
                 case Events.GUI_GOTRAINING_GOOGLENET
                     GoTrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                
+                case Events.GUI_VEHICLE_DETECTION_ALEXNET
+                    DetectionGUI(app.Principal, Events.MODE_ALEXNET);
+                case Events.GUI_VEHICLE_DETECTION_GOOGLENET
+                    DetectionGUI(app.Principal, Events.MODE_GOOGLENET);
                     
                 case Events.GUI_UPLOAD_ALEXNET
                     UploadGUI(app.Principal, Events.MODE_ALEXNET);

@@ -72,7 +72,12 @@ classdef PrincipalGUI
         end
         
         function DetectionButtonPushed(app, button, event)
-            
+            switch app.modo
+                case "alexnet"
+                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
+                case "googlenet"
+                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_GOOGLENET, nan);
+            end
         end
         
         function BackButtonPushed(app, button, event)

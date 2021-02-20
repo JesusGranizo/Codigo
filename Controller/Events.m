@@ -20,6 +20,9 @@ classdef Events
         GUI_TRAINING_ALEXNET = 50;
         GUI_TRAINING_GOOGLENET = 51;
         
+        GUI_VEHICLE_DETECTION_ALEXNET = 60;
+        GUI_VEHICLE_DETECTION_GOOGLENET = 61;
+        
         %%%%%%%%%%%%%%%%%%   COMMANDS   %%%%%%%%%%%%%%%%%%%%
         TRAINING_ALEXNET = 100;
         TRAINING_GOOGLENET = 101;
