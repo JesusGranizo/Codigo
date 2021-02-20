@@ -104,15 +104,15 @@ classdef DetectionGUI < handle
         end
         
         function ButtonStopPushed(app, button, event)
-            app.ButtonPlay.Enable = false;
-            app.ButtonStop.Enable = false;
-            image(null, 'parent', app.ContainerVideo);
-            app.stop = 1;
+            switch app.mode
+                case 'alexnet'
+                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
+                case 'googlenet'
+                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_GOOGLENET, nan);
+            end
         end
         
         function UploadVideoButtonPushed(app, button, event)
-            
-            opticFlow = opticalFlowFarneback;
             
             [file,folder] = uigetfile({'*.mp4'});
             rutaEntrada = fullfile(folder, file);
@@ -122,12 +122,107 @@ classdef DetectionGUI < handle
                     v = VideoReader(rutaEntrada);
                     app.ButtonPlay.Enable = true;
                     app.ButtonStop.Enable = true;
+                    
+                    load netTransferAlex
+                    sz = netTransfer.Layers(1).InputSize;
+                    
+                    opticFlow = opticalFlowFarneback;
+                    reset(opticFlow);
+
+                    frameRGB = read(v,1);
+                    [M,N,s] = size(frameRGB);
+                    frameRGBprev = frameRGB; 
+                    frameGrayprev = rgb2gray(frameRGB);
+                    
                     while hasFrame(v) && isempty(findobj(app.ContainerVideo)) == 0 && app.stop == 0
                         frameRGB = readFrame(v);
                         frameGray = rgb2gray(frameRGB);
                         flow = estimateFlow(opticFlow,frameGray);
                         image(frameRGB, 'parent', app.ContainerVideo);
                         app.ContainerVideo.Visible = 'off';
+                        plot(flow,'DecimationFactor',[25 25],'ScaleFactor', 2, 'Parent', app.ContainerVideo);
+                        
+                        MagnitudFlow    = mat2gray(flow.Magnitude);
+                        OrientacionFlow = flow.Orientation;
+                        level = mean2(MagnitudFlow)+std2(MagnitudFlow);
+                        BWMagFlow = MagnitudFlow > level;
+
+                        [Labels,Nlabels] = bwlabel(BWMagFlow);
+                        %figure(3); imagesc(Labels); impixelinfo; colorbar
+                        RProp   = regionprops(Labels,'all');
+                        RPropRed   = regionprops(Labels,frameRGB(:,:,1),'all');
+                        RPropGreen = regionprops(Labels,frameRGB(:,:,2),'all');
+                        RPropBlue  = regionprops(Labels,frameRGB(:,:,3),'all');
+                        RPropOrientacion  = regionprops(Labels,OrientacionFlow,'all');
+                        
+                        AreasCandidatas = zeros(1,Nlabels);
+                        for j=1:1:Nlabels
+                          if RProp(j).Area > 500
+                            AreasCandidatas(j) = 1;
+                          end
+                        end
+                        amp = 0;
+                        for h=1:1:Nlabels
+                            if AreasCandidatas(h) == 1
+                              XSupIzda =  round(RProp(h).BoundingBox(1)+amp);
+                              if XSupIzda <=0; XSupIzda = 1; end
+                              YSupIzda =  round(RProp(h).BoundingBox(2)+amp);  
+                              if YSupIzda <=0; YSupIzda = 1; end
+
+                              XSupDcha =  round(XSupIzda + RProp(h).BoundingBox(3) + amp);
+                              if XSupDcha > N; XSupDcha = N; end
+                              YSupDcha =  YSupIzda; 
+
+                              XInfIzda =  XSupIzda;
+                              YInfIzda =  round(YSupIzda + RProp(h).BoundingBox(4) + amp);
+                              if YInfIzda > M; YInfIzda = M; end
+
+                              XInfDcha =  XSupDcha; 
+                              YInfDcha =  YInfIzda;
+
+                              Recorte = frameRGB(YSupIzda:1:YInfIzda,XSupIzda:1:XSupDcha,:);
+                              RecorteBW = BWMagFlow(YSupIzda:1:YInfIzda,XSupIzda:1:XSupDcha,:);
+
+                              [aar, bbr, ssr] = size(Recorte);
+                              R = imresize(Recorte, [sz(1) sz(2)], 'bilinear');
+
+                              [label, Error]  = classify(netTransfer,R);
+                              [MEt,MaxEt] = max(Error);
+                              disp('Label ='); disp(label)
+                              disp('Error ='); disp(Error)
+
+                              Orientacion = RPropOrientacion(h).MeanIntensity;
+
+                              if (label ~= 'Asfalto') && (label ~= 'Lineas') && (label ~= 'Muro')... 
+                                 && (MEt >= 0.5)... 
+                                 && RPropOrientacion(h).Centroid(2) > 500 && RPropOrientacion(h).Centroid(2) < 950 
+                                switch label
+                                    case 'Bus'
+                                      color = 'yellow'; texto = 'Bus';
+                                    case 'CamionFurgo'
+                                      color = 'white'; texto = 'Camion-furgo';
+                                    case 'CocheDelantera'
+                                      color = 'blue'; texto = 'Car Frontal';
+                                    case 'CocheTrasera'
+                                      color = 'red'; texto = 'Car Trasera';
+                                    case 'Moto'
+                                      color = 'green'; texto = 'Moto';
+                                    case 'Asfalto'
+                                      color = 'black'; texto = 'Asfalto';
+                                    case 'Lineas'
+                                      color = 'black'; texto = 'Lineas';
+                                    case 'Muro'
+                                      color = 'black'; texto = 'Muro';
+                                end
+                                figure(1); hold on; text(XSupDcha,YSupDcha,texto)
+                                line([XSupIzda,XSupDcha],[YSupIzda,YSupDcha],'LineWidth',3,'Color',color)
+                                line([XSupIzda,XInfIzda],[YSupIzda,YInfIzda],'LineWidth',3,'Color',color)
+                                line([XSupDcha,XInfDcha],[YSupDcha,YInfDcha],'LineWidth',3,'Color',color)
+                                line([XInfIzda,XInfDcha],[YInfIzda,YInfDcha],'LineWidth',3,'Color',color)
+                                hold off
+                              end
+                            end
+                        end                        
                         pause(1/v.FrameRate);
                         while app.isPlaying == 0 && app.stop == 0
                             pause(1/10);
