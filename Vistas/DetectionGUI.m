@@ -138,9 +138,11 @@ classdef DetectionGUI < handle
                         frameRGB = readFrame(v);
                         frameGray = rgb2gray(frameRGB);
                         flow = estimateFlow(opticFlow,frameGray);
-                        image(frameRGB, 'parent', app.ContainerVideo);
+                        a = image(frameRGB, 'parent', app.ContainerVideo);
+                        hold(app.ContainerVideo, 'on');
                         app.ContainerVideo.Visible = 'off';
-                        plot(flow,'DecimationFactor',[25 25],'ScaleFactor', 2, 'Parent', app.ContainerVideo);
+                        plot(flow,'DecimationFactor',[25 25],'ScaleFactor', 1, 'Parent', app.ContainerVideo);
+                        hold(app.ContainerVideo, 'off');
                         
                         MagnitudFlow    = mat2gray(flow.Magnitude);
                         OrientacionFlow = flow.Orientation;
@@ -188,8 +190,6 @@ classdef DetectionGUI < handle
 
                               [label, Error]  = classify(netTransfer,R);
                               [MEt,MaxEt] = max(Error);
-                              disp('Label ='); disp(label)
-                              disp('Error ='); disp(Error)
 
                               Orientacion = RPropOrientacion(h).MeanIntensity;
 
@@ -214,12 +214,13 @@ classdef DetectionGUI < handle
                                     case 'Muro'
                                       color = 'black'; texto = 'Muro';
                                 end
-                                figure(1); hold on; text(XSupDcha,YSupDcha,texto)
-                                line([XSupIzda,XSupDcha],[YSupIzda,YSupDcha],'LineWidth',3,'Color',color)
-                                line([XSupIzda,XInfIzda],[YSupIzda,YInfIzda],'LineWidth',3,'Color',color)
-                                line([XSupDcha,XInfDcha],[YSupDcha,YInfDcha],'LineWidth',3,'Color',color)
-                                line([XInfIzda,XInfDcha],[YInfIzda,YInfDcha],'LineWidth',3,'Color',color)
-                                hold off
+                                hold(app.ContainerVideo, 'on'); 
+                                text(XSupDcha,YSupDcha,texto, 'Parent', app.ContainerVideo);
+                                line([XSupIzda,XSupDcha],[YSupIzda,YSupDcha],'LineWidth',3,'Color',color, 'Parent', app.ContainerVideo);
+                                line([XSupIzda,XInfIzda],[YSupIzda,YInfIzda],'LineWidth',3,'Color',color, 'Parent', app.ContainerVideo);
+                                line([XSupDcha,XInfDcha],[YSupDcha,YInfDcha],'LineWidth',3,'Color',color, 'Parent', app.ContainerVideo);
+                                line([XInfIzda,XInfDcha],[YInfIzda,YInfDcha],'LineWidth',3,'Color',color, 'Parent', app.ContainerVideo);
+                                hold(app.ContainerVideo, 'off');
                               end
                             end
                         end                        
