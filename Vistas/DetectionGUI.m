@@ -1,16 +1,29 @@
 classdef DetectionGUI < handle
     properties
-        BackButton         matlab.ui.control.Button
-        Title              matlab.ui.control.Label
-        UploadVideoButton  matlab.ui.control.Button
-        ContainerImage     matlab.ui.control.Image
-        InfoArea           matlab.ui.control.TextArea
-        ContainerVideo     matlab.ui.control.UIAxes
-        ButtonPlay         matlab.ui.control.Button
-        ButtonStop         matlab.ui.control.Button       
-        mode               string
-        isPlaying          logical
-        stop               logical
+        BackButton            matlab.ui.control.Button
+        Title                 matlab.ui.control.Label
+        UploadVideoButton     matlab.ui.control.Button
+        ButtonPlay            matlab.ui.control.Button
+        ButtonStop            matlab.ui.control.Button
+        ImageRecorte          matlab.ui.control.Image
+        AutobusesLabel        matlab.ui.control.Label
+        CamionesFurgoLabel    matlab.ui.control.Label
+        MotosLabel            matlab.ui.control.Label
+        DelanteraCochesLabel  matlab.ui.control.Label
+        TraseraCochesLabel    matlab.ui.control.Label
+        BusCount              matlab.ui.control.Label
+        CamionesCount         matlab.ui.control.Label
+        MotosCount            matlab.ui.control.Label
+        DelanteraCount        matlab.ui.control.Label
+        TraseraCount          matlab.ui.control.Label
+        ProgressTotal         matlab.ui.container.Panel
+        Progress              matlab.ui.container.Panel
+        ProgressLabel         matlab.ui.control.Label
+        ContainerVideo        matlab.ui.control.UIAxes
+        mode                  string
+        isPlaying             logical
+        stop                  logical
+        transferIdentified    TransferIdentified
     end
     
     methods (Access = private)
@@ -38,40 +51,116 @@ classdef DetectionGUI < handle
             % Create UploadVideoButton
             app.UploadVideoButton = uibutton(panel, 'push');
             app.UploadVideoButton.FontSize = 16;
-            app.UploadVideoButton.Position = [161 38 258 40];
+            app.UploadVideoButton.Position = [646 324 258 40];
             app.UploadVideoButton.Text = 'Upload Video';
 
-            % Create ContainerImage
-            app.ContainerImage = uiimage(panel);
-            app.ContainerImage.Position = [641 296 220 138];
+            % Create ButtonPlay
+            app.ButtonPlay = uibutton(panel, 'push');
+            app.ButtonPlay.Icon = 'play.svg';
+            app.ButtonPlay.Enable = 'off';
+            app.ButtonPlay.Position = [710 380 40 40];
+            app.ButtonPlay.Text = '';
 
-            % Create InfoArea
-            app.InfoArea = uitextarea(panel);
-            app.InfoArea.Position = [582 118 338 111];
+            % Create ButtonStop
+            app.ButtonStop = uibutton(panel, 'push');
+            app.ButtonStop.Icon = 'stop.svg';
+            app.ButtonStop.Enable = 'off';
+            app.ButtonStop.Position = [800 380 40 40];
+            app.ButtonStop.Text = '';
+
+            % Create ImageRecorte
+            app.ImageRecorte = uiimage(panel);
+            app.ImageRecorte.Position = [725 178 100 100];
+
+            % Create AutobusesLabel
+            app.AutobusesLabel = uilabel(panel);
+            app.AutobusesLabel.HorizontalAlignment = 'right';
+            app.AutobusesLabel.FontSize = 15;
+            app.AutobusesLabel.Position = [646 131 125 33];
+            app.AutobusesLabel.Text = 'Autobuses:';
+
+            % Create CamionesFurgoLabel
+            app.CamionesFurgoLabel = uilabel(panel);
+            app.CamionesFurgoLabel.HorizontalAlignment = 'right';
+            app.CamionesFurgoLabel.FontSize = 15;
+            app.CamionesFurgoLabel.Position = [646 99 125 33];
+            app.CamionesFurgoLabel.Text = 'CamionesFurgo:';
+
+            % Create MotosLabel
+            app.MotosLabel = uilabel(panel);
+            app.MotosLabel.HorizontalAlignment = 'right';
+            app.MotosLabel.FontSize = 15;
+            app.MotosLabel.Position = [646 67 125 33];
+            app.MotosLabel.Text = 'Motos:';
+
+            % Create DelanteraCochesLabel
+            app.DelanteraCochesLabel = uilabel(panel);
+            app.DelanteraCochesLabel.HorizontalAlignment = 'right';
+            app.DelanteraCochesLabel.FontSize = 15;
+            app.DelanteraCochesLabel.Position = [641 35 130 33];
+            app.DelanteraCochesLabel.Text = 'Delantera Coches:';
+
+            % Create TraseraCochesLabel
+            app.TraseraCochesLabel = uilabel(panel);
+            app.TraseraCochesLabel.HorizontalAlignment = 'right';
+            app.TraseraCochesLabel.FontSize = 15;
+            app.TraseraCochesLabel.Position = [646 3 125 33];
+            app.TraseraCochesLabel.Text = 'Trasera Coches:';
+
+            % Create BusCount
+            app.BusCount = uilabel(panel);
+            app.BusCount.FontSize = 15;
+            app.BusCount.Position = [783 131 125 33];
+            app.BusCount.Text = '0';
+
+            % Create CamionesCount
+            app.CamionesCount = uilabel(panel);
+            app.CamionesCount.FontSize = 15;
+            app.CamionesCount.Position = [783 99 125 33];
+            app.CamionesCount.Text = '0';
+
+            % Create MotosCount
+            app.MotosCount = uilabel(panel);
+            app.MotosCount.FontSize = 15;
+            app.MotosCount.Position = [783 67 125 33];
+            app.MotosCount.Text = '0';
+
+            % Create DelanteraCount
+            app.DelanteraCount = uilabel(panel);
+            app.DelanteraCount.FontSize = 15;
+            app.DelanteraCount.Position = [783 35 125 33];
+            app.DelanteraCount.Text = '0';
+
+            % Create TraseraCount
+            app.TraseraCount = uilabel(panel);
+            app.TraseraCount.FontSize = 15;
+            app.TraseraCount.Position = [783 3 125 33];
+            app.TraseraCount.Text = '0';
+
+            % Create ProgressTotal
+            app.ProgressTotal = uipanel(panel);
+            app.ProgressTotal.BackgroundColor = [1 1 1];
+            app.ProgressTotal.Position = [632 431 286 10];
+
+            % Create Progress
+            app.Progress = uipanel(app.ProgressTotal);
+            app.Progress.BackgroundColor = [0.0745 0.6235 1];
+            app.Progress.Position = [0 0 0 10];
+
+            % Create ProgressLabel
+            app.ProgressLabel = uilabel(panel);
+            app.ProgressLabel.HorizontalAlignment = 'center';
+            app.ProgressLabel.Position = [632 440 286 22];
+            app.ProgressLabel.Text = 'Progreso del vídeo';
 
             % Create ContainerVideo
             app.ContainerVideo = uiaxes(panel);
-            app.ContainerVideo.Position = [40 134 500 320];
+            app.ContainerVideo.Layer = 'top';
             app.ContainerVideo.XTick = [];
             app.ContainerVideo.YTick = [];
-            
-            % Create ButtonStop
-            app.ButtonPlay = uibutton(panel, 'push');
-            app.ButtonPlay.Icon = 'play.svg';
-            app.ButtonPlay.IconAlignment = 'center';
-            app.ButtonPlay.FontSize = 16;
-            app.ButtonPlay.Position = [245 90 40 40];
-            app.ButtonPlay.Text = '';
-            app.ButtonPlay.Enable = false;
-            
-            % Create ButtonPlay
-            app.ButtonStop = uibutton(panel, 'push');
-            app.ButtonStop.Icon = 'stop.svg';
-            app.ButtonStop.IconAlignment = 'center';
-            app.ButtonStop.FontSize = 16;
-            app.ButtonStop.Position = [295 90 40 40];
-            app.ButtonStop.Text = '';
-            app.ButtonStop.Enable = false;
+            app.ContainerVideo.GridColor = [0.8 0.8 0.8];
+            app.ContainerVideo.MinorGridColor = [0.902 0.902 0.902];
+            app.ContainerVideo.Position = [18 34 581 437];
             
             app.isPlaying = 0;
             app.stop = 0;
@@ -81,6 +170,7 @@ classdef DetectionGUI < handle
             disableDefaultInteractivity(app.ContainerVideo);
             app.ButtonPlay.ButtonPushedFcn = @app.ButtonPlayPushed;
             app.ButtonStop.ButtonPushedFcn = @app.ButtonStopPushed;
+            app.transferIdentified = TransferIdentified();
         end
         
         function BackButtonPushed(app, button, event)
@@ -104,6 +194,7 @@ classdef DetectionGUI < handle
         end
         
         function ButtonStopPushed(app, button, event)
+            app.stop = 1;
             switch app.mode
                 case 'alexnet'
                     Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
@@ -119,11 +210,20 @@ classdef DetectionGUI < handle
             
             if (file ~= 0)
                 if (strlength(file) > 3 && strcmp(file(end-3:end), '.mp4'))
+                    app.UploadVideoButton.Enable = false;
                     v = VideoReader(rutaEntrada);
                     app.ButtonPlay.Enable = true;
                     app.ButtonStop.Enable = true;
+                    NFrames = v.NumberOfFrames;
+                    frame = 0;
                     
-                    load netTransferAlex
+                    switch app.mode
+                        case "alexnet"
+                            load netTransferAlex;
+                        case "googlenet"
+                            load netTransferGoogle;
+                    end
+                    
                     sz = netTransfer.Layers(1).InputSize;
                     
                     opticFlow = opticalFlowFarneback;
@@ -138,10 +238,9 @@ classdef DetectionGUI < handle
                         frameRGB = readFrame(v);
                         frameGray = rgb2gray(frameRGB);
                         flow = estimateFlow(opticFlow,frameGray);
-                        a = image(frameRGB, 'parent', app.ContainerVideo);
+                        a = imshow(frameRGB, 'parent', app.ContainerVideo);
                         hold(app.ContainerVideo, 'on');
-                        app.ContainerVideo.Visible = 'off';
-                        plot(flow,'DecimationFactor',[25 25],'ScaleFactor', 1, 'Parent', app.ContainerVideo);
+                        %plot(flow,'DecimationFactor',[25 25],'ScaleFactor', 2, 'Parent', app.ContainerVideo);
                         hold(app.ContainerVideo, 'off');
                         
                         MagnitudFlow    = mat2gray(flow.Magnitude);
@@ -158,13 +257,18 @@ classdef DetectionGUI < handle
                         RPropOrientacion  = regionprops(Labels,OrientacionFlow,'all');
                         
                         AreasCandidatas = zeros(1,Nlabels);
-                        for j=1:1:Nlabels
+                        j=1;
+                        while j < Nlabels && isempty(findobj(app.ContainerVideo)) == 0 && app.stop == 0
+                            pause(1/1000);
                           if RProp(j).Area > 500
                             AreasCandidatas(j) = 1;
                           end
+                          j = j + 1;
                         end
                         amp = 0;
-                        for h=1:1:Nlabels
+                        h= 1;
+                        while h < Nlabels && isempty(findobj(app.ContainerVideo)) == 0 && app.stop == 0
+                            pause(1/1000);
                             if AreasCandidatas(h) == 1
                               XSupIzda =  round(RProp(h).BoundingBox(1)+amp);
                               if XSupIzda <=0; XSupIzda = 1; end
@@ -184,7 +288,7 @@ classdef DetectionGUI < handle
 
                               Recorte = frameRGB(YSupIzda:1:YInfIzda,XSupIzda:1:XSupDcha,:);
                               RecorteBW = BWMagFlow(YSupIzda:1:YInfIzda,XSupIzda:1:XSupDcha,:);
-
+                              
                               [aar, bbr, ssr] = size(Recorte);
                               R = imresize(Recorte, [sz(1) sz(2)], 'bilinear');
 
@@ -195,7 +299,9 @@ classdef DetectionGUI < handle
 
                               if (label ~= 'Asfalto') && (label ~= 'Lineas') && (label ~= 'Muro')... 
                                  && (MEt >= 0.5)... 
-                                 && RPropOrientacion(h).Centroid(2) > 500 && RPropOrientacion(h).Centroid(2) < 950 
+                                 && RPropOrientacion(h).Centroid(2) > 500 && RPropOrientacion(h).Centroid(2) < 950
+                                app.ImageRecorte.ImageSource = Recorte;
+                                app.transferIdentified.addItem(XInfIzda, XInfDcha, XSupIzda, XSupDcha, YInfIzda, YInfDcha, YSupIzda, YSupDcha, label, frame);
                                 switch label
                                     case 'Bus'
                                       color = 'yellow'; texto = 'Bus';
@@ -223,11 +329,16 @@ classdef DetectionGUI < handle
                                 hold(app.ContainerVideo, 'off');
                               end
                             end
-                        end                        
-                        pause(1/v.FrameRate);
-                        while app.isPlaying == 0 && app.stop == 0
-                            pause(1/10);
+                            h = h +1;
                         end
+                        while app.isPlaying == 0 && app.stop == 0
+                            pause(1/1000);
+                        end
+                        app.transferIdentified.cleanArrrays(frame);
+                        if isempty(findobj(app.ContainerVideo)) == 0
+                            app.updateProgress(frame, NFrames);
+                        end
+                        frame = frame + 1;
                     end
                 else
                     msgbox('Formato de archivo no válido', '', "error");
@@ -235,6 +346,17 @@ classdef DetectionGUI < handle
             end
         end
         
+        function updateProgress(app, frame, totalFrames)
+            widthTotal = app.ProgressTotal.Position(3);
+            width = (widthTotal * frame) / totalFrames;
+            app.Progress.Position = [0, 0, width, 10];
+            
+            app.BusCount.Text = sprintf('%.0f',app.transferIdentified.BusCount);
+            app.CamionesCount.Text = sprintf('%.0f',app.transferIdentified.CamionCount);
+            app.MotosCount.Text = sprintf('%.0f',app.transferIdentified.MotoCount);
+            app.DelanteraCount.Text = sprintf('%.0f',app.transferIdentified.DelanteraCount);
+            app.TraseraCount.Text = sprintf('%.0f',app.transferIdentified.TraseraCount);
+        end
     end
     
     methods
