@@ -36,7 +36,7 @@ classdef DispatcherImp
             app.MenuGUI = MenuGUI(app.Menu);
         end
         
-        function loadVista(app, event)
+        function loadVista(app, event, data)
             
             import Vistas.*;
             import Controller.*;
@@ -83,6 +83,11 @@ classdef DispatcherImp
                     TrainingGUI(app.Principal, Events.MODE_ALEXNET);
                 case Events.GUI_TRAINING_GOOGLENET
                     TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                    
+                case Events.GUI_THINGSPEAK_ALEXNET
+                    ThingSpeak(app.Principal, Events.MODE_ALEXNET, data);
+                case Events.GUI_THINGSPEAK_GOOGLENET
+                    ThingSpeak(app.Principal, Events.MODE_GOOGLENET, data);
             end
         end
     end

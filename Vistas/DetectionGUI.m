@@ -195,12 +195,6 @@ classdef DetectionGUI < handle
         
         function ButtonStopPushed(app, button, event)
             app.stop = 1;
-            switch app.mode
-                case 'alexnet'
-                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
-                case 'googlenet'
-                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_GOOGLENET, nan);
-            end
         end
         
         function UploadVideoButtonPushed(app, button, event)
@@ -340,6 +334,17 @@ classdef DetectionGUI < handle
                         end
                         frame = frame + 1;
                     end
+                    app.transferIdentified.completeCount();
+                    if isempty(findobj(app.ContainerVideo)) == 0
+                        app.updateProgress(frame, NFrames);
+                    end
+                    switch app.mode
+                        case 'alexnet'
+                            Controller.getInstance().execute(Events.GUI_THINGSPEAK_ALEXNET, app.transferIdentified);
+                        case 'googlenet'
+                            Controller.getInstance().execute(Events.GUI_THINGSPEAK_GOOGLENET, app.transferIdentified);
+                    end
+            
                 else
                     msgbox('Formato de archivo no válido', '', "error");
                 end

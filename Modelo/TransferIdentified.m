@@ -141,7 +141,24 @@ classdef TransferIdentified < handle
                 i = i+1;
             end
         end
-            
+        
+        function completeCount(app)
+            [m,n] = size(app.BusIdentified);
+            app.BusCount = app.BusCount + n;
+            app.BusIdentified = [];
+            [m,n] = size(app.CamionIdentified);
+            app.CamionCount = app.CamionCount + n;
+            app.CamionIdentified = [];
+            [m,n] = size(app.MotoIdentified);
+            app.MotoCount = app.MotoCount + n;
+            app.MotoIdentified = [];
+            [m,n] = size(app.DelanteraIdentified);
+            app.DelanteraCount = app.DelanteraCount + n;
+            app.DelanteraIdentified = [];
+            [m,n] = size(app.TraseraIdentified);
+            app.TraseraCount = app.TraseraCount + n;
+            app.TraseraIdentified = [];
+        end
     end
 end
 
