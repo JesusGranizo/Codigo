@@ -27,14 +27,17 @@ classdef ThingSpeak < handle
         LabelLocation           matlab.ui.control.Label
         CamaraLabel             matlab.ui.control.Label
         CamaraDropDown          matlab.ui.control.DropDown
-        Map                     containers.Map
+        ChannelsIdMap           containers.Map
+        ChannelsReadKeyMap      containers.Map
+        ChannelsWriteKeyMap     containers.Map
         transferIdentified      TransferIdentified
-        modo                    string
+        mode                    string
         globe
     end
     
     methods (Access = private)
         function createComponents(app, panel)
+            f = waitbar(0,'Loading...', 'WindowStyle', 'modal');
             % Create BackButton
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.FontSize = 16;
@@ -46,7 +49,12 @@ classdef ThingSpeak < handle
             app.Title.FontSize = 40;
             app.Title.FontWeight = 'bold';
             app.Title.Position = [40 480 500 70];
-            app.Title.Text = 'Titulo';
+            switch app.mode
+                case "alexnet"
+                    app.Title.Text = 'ThingSpeak (AlexNet)';
+                case "googlenet"
+                    app.Title.Text = 'ThingSpeak (GoogleNet)';
+            end
 
             % Create AutobusesLabel
             app.AutobusesLabel = uilabel(panel);
@@ -168,6 +176,7 @@ classdef ThingSpeak < handle
             app.sLabel.Position = [260 91 25 22];
             app.sLabel.Text = 's';
 
+            waitbar(0.16,f,'Please wait...');
             % Create SendtoThingSpeakButton
             app.SendtoThingSpeakButton = uibutton(panel, 'push');
             app.SendtoThingSpeakButton.FontSize = 16;
@@ -199,37 +208,81 @@ classdef ThingSpeak < handle
 
             % Create CamaraDropDown
             app.CamaraDropDown = uidropdown(panel);
-            app.CamaraDropDown.Items = {'Camera 1', 'Camera 2'};
             app.CamaraDropDown.FontSize = 16;
             app.CamaraDropDown.Position = [185 52 149 22];
             
+            waitbar(0.15,f,'Please wait...');
             app.globe = geoglobe(app.PanelLocation,'Basemap','streets');
             
-            app.DatePicker.Value = datetime([2021 3 16]);
-            keySet = app.CamaraDropDown.Items;
-            valueSet = [1327228 1327227];
-            app.Map = containers.Map(keySet,valueSet);
-            channelID = app.Map(app.CamaraDropDown.Value);
-            data = thingSpeakRead(channelID, 'Location',true, 'ReadKey','SNU7MSCAEYJ7TQND');
-            campos(app.globe, data(5), data(6), 5000);
+            waitbar(0.38,f,'Please wait...');
+            app.BusCount.Text = sprintf('%.0f',app.transferIdentified.BusCount);
+            app.CamionesCount.Text = sprintf('%.0f',app.transferIdentified.CamionCount);
+            app.MotosCount.Text = sprintf('%.0f',app.transferIdentified.MotoCount);
+            app.DelanteraCount.Text = sprintf('%.0f',app.transferIdentified.DelanteraCount);
+            app.TraseraCount.Text = sprintf('%.0f',app.transferIdentified.TraseraCount);
+            
+            waitbar(0.51,f,'Please wait...');
+            app.createMaps();
+            
+            waitbar(0.75,f,'Please wait...');
+            app.getCoordinates(app.CamaraDropDown.Value);
+            
+            waitbar(0.87,f,'Please wait...');
+            date = datetime('now');
+            app.DatePicker.Value = datetime([year(date), month(date), day(date)]);
+            app.SpinnerH.Value = hour(date);
+            app.SpinnerM.Value = minute(date);
+            app.SpinnerS.Value = fix(second(date));
+            
+            waitbar(0.94,f,'Please wait...');
             app.SendtoThingSpeakButton.ButtonPushedFcn = @app.SendtoThingSpeakButtonPushed;
+            app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
+            app.CancelButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.CamaraDropDown.ValueChangedFcn = @app.CamaraDropDownValueChanged;
+            waitbar(1,f,'Please wait...');
+            close(f);
         end
         
-        function SendtoThingSpeakButtonPushed(app, button, event)
-            channelID = app.Map(app.CamaraDropDown.Value);
-            data = thingSpeakRead(channelID, 'Location',true, 'ReadKey','SNU7MSCAEYJ7TQND');
+        function SendtoThingSpeakButtonPushed(app, ~, ~)
+            channelID = app.ChannelsIdMap(app.CamaraDropDown.Value);
+            writeKey = app.ChannelsWriteKeyMap(app.CamaraDropDown.Value);
             date = app.DatePicker.Value;
             t =datetime(year(date),month(date),day(date),app.SpinnerH.Value, app.SpinnerM.Value, app.SpinnerS.Value);
-            thingSpeakWrite(channelID,[app.transferIdentified.BusCount, app.transferIdentified.CamionCount, app.transferIdentified.DelanteraCount + app.transferIdentified.TraseraCount, app.transferIdentified.MotoCount],'Location',[data(5), data(6), 500],'WriteKey','0V0QOMRCZXKI4QM4','TimeStamp',t);
+            thingSpeakWrite(str2double(channelID),[app.transferIdentified.BusCount, app.transferIdentified.CamionCount, app.transferIdentified.DelanteraCount + app.transferIdentified.TraseraCount, app.transferIdentified.MotoCount],'WriteKey',writeKey,'TimeStamp',t);
         end
         
         function CamaraDropDownValueChanged(app, ~, ~)
-            channelID = app.Map(app.CamaraDropDown.Value);
-            data = thingSpeakRead(channelID, 'Location',true, 'ReadKey','SNU7MSCAEYJ7TQND');
-            campos(app.globe, data(5), data(6), 5000);
-            i = 0;
+            app.getCoordinates(app.CamaraDropDown.Value);
         end
+        
+        function BackButtonPushed(app, ~, ~)
+            switch app.mode
+                case 'alexnet'
+                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
+                case 'googlenet'
+                    Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_GOOGLENET, nan);
+            end
+        end
+        
+        function createMaps(app)
+            keySet = {'Camera 1'};
+            app.CamaraDropDown.Items = keySet;
+            valueSet = {'1327228'};
+            app.ChannelsIdMap = containers.Map(keySet,valueSet);
+            valueSet = {'0V0QOMRCZXKI4QM4'};
+            app.ChannelsWriteKeyMap = containers.Map(keySet,valueSet);
+            valueSet = {'SNU7MSCAEYJ7TQND'};
+            app.ChannelsReadKeyMap = containers.Map(keySet,valueSet);
+        end
+        
+        function getCoordinates(app, camera)
+            channelId = app.ChannelsIdMap(camera);
+            readKey = app.ChannelsReadKeyMap(camera);
+            url = strcat('https://api.thingspeak.com/channels/', channelId, '/feeds.json?api_key=', readKey);
+            data = webread(url);
+            campos(app.globe, str2double(data.channel.latitude), str2double(data.channel.longitude), 1000);
+        end
+            
     end
     
     methods
@@ -238,9 +291,9 @@ classdef ThingSpeak < handle
             
             switch event
                 case Events.MODE_ALEXNET
-                    app.modo = "alexnet";
+                    app.mode = "alexnet";
                 case Events.MODE_GOOGLENET
-                    app.modo = "googlenet";
+                    app.mode = "googlenet";
             end
             app.createComponents(panel);
         end
