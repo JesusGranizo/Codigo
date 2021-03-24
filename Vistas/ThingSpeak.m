@@ -23,13 +23,14 @@ classdef ThingSpeak < handle
         sLabel                  matlab.ui.control.Label
         SendtoThingSpeakButton  matlab.ui.control.Button
         CancelButton            matlab.ui.control.Button
-        PanelLocation           matlab.ui.container.Panel
+        Map                     matlab.ui.control.Image
         LabelLocation           matlab.ui.control.Label
         CamaraLabel             matlab.ui.control.Label
         CamaraDropDown          matlab.ui.control.DropDown
         ChannelsIdMap           containers.Map
         ChannelsReadKeyMap      containers.Map
         ChannelsWriteKeyMap     containers.Map
+        ChannelsImageKeyMap     containers.Map
         transferIdentified      TransferIdentified
         mode                    string
         globe
@@ -182,16 +183,13 @@ classdef ThingSpeak < handle
             app.SendtoThingSpeakButton.FontSize = 16;
             app.SendtoThingSpeakButton.Position = [428 52 217 54];
             app.SendtoThingSpeakButton.Text = {'Send to ThingSpeak'; ''};
+            app.SendtoThingSpeakButton.Enable = false;
 
             % Create CancelButton
             app.CancelButton = uibutton(panel, 'push');
             app.CancelButton.FontSize = 16;
             app.CancelButton.Position = [667 52 217 54];
             app.CancelButton.Text = 'Cancel';
-
-            % Create PanelLocation
-            app.PanelLocation = uipanel(panel);
-            app.PanelLocation.Position = [381 126 539 328];
 
             % Create LabelLocation
             app.LabelLocation = uilabel(panel);
@@ -209,10 +207,13 @@ classdef ThingSpeak < handle
             % Create CamaraDropDown
             app.CamaraDropDown = uidropdown(panel);
             app.CamaraDropDown.FontSize = 16;
-            app.CamaraDropDown.Position = [185 52 149 22];
+            app.CamaraDropDown.Position = [185 52 197 22];
             
             waitbar(0.15,f,'Please wait...');
-            app.globe = geoglobe(app.PanelLocation,'Basemap','streets');
+            % Create Map
+            app.Map = uiimage(panel);
+            app.Map.Position = [381 105 571 360];
+            app.Map.ImageSource = 'CamaraAll.png';
             
             waitbar(0.38,f,'Please wait...');
             app.BusCount.Text = sprintf('%.0f',app.transferIdentified.BusCount);
@@ -252,6 +253,11 @@ classdef ThingSpeak < handle
         end
         
         function CamaraDropDownValueChanged(app, ~, ~)
+            if(strcmp(app.CamaraDropDown.Value, 'Select camera'))
+                app.SendtoThingSpeakButton.Enable = false;
+            else
+                app.SendtoThingSpeakButton.Enable = true;
+            end
             app.getCoordinates(app.CamaraDropDown.Value);
         end
         
@@ -265,22 +271,21 @@ classdef ThingSpeak < handle
         end
         
         function createMaps(app)
-            keySet = {'Camera 1'};
+            keySet = {'Select camera', '1 - Moncloa', '2 - Villaverde', '3 - Usera', '4 - A2 Km52', '5 - Moratalaz', '6 - Guadalajara', '7 - Atocha', '8 - Casa de Campo'};
             app.CamaraDropDown.Items = keySet;
-            valueSet = {'1327228'};
+            valueSet = {'', '1327228', '1332803', '1332804', '1332805', '1332795', '1332797', '1332798', '1332799'};
             app.ChannelsIdMap = containers.Map(keySet,valueSet);
-            valueSet = {'0V0QOMRCZXKI4QM4'};
+            valueSet = {'', '0V0QOMRCZXKI4QM4', 'NO7AQ8AQXRY2DTAN', 'FAOITJW3CXJ43AOJ', 'TE0I23538Z0JD1PT', 'OVLBPLE88HILIXVC', 'C3V8D77OV9QH0QRA', 'TW12DC9RLE8XRI56', 'FZACQ6F4YUUU2EJA'};
             app.ChannelsWriteKeyMap = containers.Map(keySet,valueSet);
-            valueSet = {'SNU7MSCAEYJ7TQND'};
+            valueSet = {'', 'SNU7MSCAEYJ7TQND', 'WCQUOWPHL86HRPKN', 'XBU17JMJ09NWSGYV', 'ZD73EXA28OLV8RVY', 'BSSX2UO4GHZ2QC7Z', 'SSXEQ2R43G0QIYE7', 'KZ94IQV8EGHI9MEU', 'U6WDE4PRP1QM3CAB'};
             app.ChannelsReadKeyMap = containers.Map(keySet,valueSet);
+            valueSet = {'CamaraAll.png', 'Camara1.png', 'Camara2.png', 'Camara3.png', 'Camara4.png', 'Camara5.png','Camara6.png', 'Camara7.png','Camara8.png',};
+            app.ChannelsImageKeyMap = containers.Map(keySet,valueSet);
         end
         
         function getCoordinates(app, camera)
-            channelId = app.ChannelsIdMap(camera);
-            readKey = app.ChannelsReadKeyMap(camera);
-            url = strcat('https://api.thingspeak.com/channels/', channelId, '/feeds.json?api_key=', readKey);
-            data = webread(url);
-            campos(app.globe, str2double(data.channel.latitude), str2double(data.channel.longitude), 1000);
+            image = app.ChannelsImageKeyMap(camera);
+            app.Map.ImageSource = image;
         end
             
     end
