@@ -245,11 +245,17 @@ classdef ThingSpeak < handle
         end
         
         function SendtoThingSpeakButtonPushed(app, ~, ~)
-            channelID = app.ChannelsIdMap(app.CamaraDropDown.Value);
-            writeKey = app.ChannelsWriteKeyMap(app.CamaraDropDown.Value);
+            id = app.ChannelsIdMap(app.CamaraDropDown.Value);
             date = app.DatePicker.Value;
-            t =datetime(year(date),month(date),day(date),app.SpinnerH.Value, app.SpinnerM.Value, app.SpinnerS.Value);
-            thingSpeakWrite(str2double(channelID),[app.transferIdentified.BusCount, app.transferIdentified.CamionCount, app.transferIdentified.DelanteraCount + app.transferIdentified.TraseraCount, app.transferIdentified.MotoCount],'WriteKey',writeKey,'TimeStamp',t);
+            t = append(num2str(year(date),'%04.f'), '-', num2str(month(date),'%02.f'), '-', num2str(day(date),'%02.f'), ' ', num2str(app.SpinnerH.Value,'%02.f'), ':', num2str(app.SpinnerM.Value,'%02.f'), ':', num2str(app.SpinnerS.Value,'%02.f'));
+            response = webwrite("http://api.brogame.es/thingspeak", "camera", id, "bus", app.transferIdentified.BusCount, "truck", app.transferIdentified.CamionCount, "car", app.transferIdentified.DelanteraCount + app.transferIdentified.TraseraCount, "moto", app.transferIdentified.MotoCount, "date", t);
+            if(response.error)
+                msgbox(response.message, 'Error', 'error');
+            else
+                msgbox(response.message, 'Completado', 'help');
+                pause(2);
+                web(response.tweet)
+            end
         end
         
         function CamaraDropDownValueChanged(app, ~, ~)
@@ -273,12 +279,8 @@ classdef ThingSpeak < handle
         function createMaps(app)
             keySet = {'Select camera', '1 - Moncloa', '2 - Villaverde', '3 - Usera', '4 - A2 Km52', '5 - Moratalaz', '6 - Guadalajara', '7 - Atocha', '8 - Casa de Campo'};
             app.CamaraDropDown.Items = keySet;
-            valueSet = {'', '1327228', '1332803', '1332804', '1332805', '1332795', '1332797', '1332798', '1332799'};
+            valueSet = {'', '1', '2', '3', '4', '5', '6', '7', '8'};
             app.ChannelsIdMap = containers.Map(keySet,valueSet);
-            valueSet = {'', '0V0QOMRCZXKI4QM4', 'NO7AQ8AQXRY2DTAN', 'FAOITJW3CXJ43AOJ', 'TE0I23538Z0JD1PT', 'OVLBPLE88HILIXVC', 'C3V8D77OV9QH0QRA', 'TW12DC9RLE8XRI56', 'FZACQ6F4YUUU2EJA'};
-            app.ChannelsWriteKeyMap = containers.Map(keySet,valueSet);
-            valueSet = {'', 'SNU7MSCAEYJ7TQND', 'WCQUOWPHL86HRPKN', 'XBU17JMJ09NWSGYV', 'ZD73EXA28OLV8RVY', 'BSSX2UO4GHZ2QC7Z', 'SSXEQ2R43G0QIYE7', 'KZ94IQV8EGHI9MEU', 'U6WDE4PRP1QM3CAB'};
-            app.ChannelsReadKeyMap = containers.Map(keySet,valueSet);
             valueSet = {'CamaraAll.png', 'Camara1.png', 'Camara2.png', 'Camara3.png', 'Camara4.png', 'Camara5.png','Camara6.png', 'Camara7.png','Camara8.png',};
             app.ChannelsImageKeyMap = containers.Map(keySet,valueSet);
         end
