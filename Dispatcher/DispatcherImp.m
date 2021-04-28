@@ -69,10 +69,10 @@ classdef DispatcherImp
                 case Events.GUI_UPLOAD_GOOGLENET
                     UploadGUI(app.Principal, Events.MODE_GOOGLENET);
                     
-                case Events.GUI_VISUALIZATION_ALEXNET
-                    TrainingGUI(app.Principal, Events.MODE_ALEXNET);
-                case Events.GUI_VISUALIZATION_GOOGLENET
-                    TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
+                %case Events.GUI_VISUALIZATION_ALEXNET
+                 %   TrainingGUI(app.Principal, Events.MODE_ALEXNET);
+                %case Events.GUI_VISUALIZATION_GOOGLENET
+                 %   TrainingGUI(app.Principal, Events.MODE_GOOGLENET);
                     
                 case Events.GUI_VISUALIZATION_ALEXNET
                     GoTrainingGUI(app.Principal, Events.MODE_ALEXNET);

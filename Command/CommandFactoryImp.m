@@ -7,6 +7,10 @@ classdef CommandFactoryImp
                     Training(event, data);
                 case Events.TRAINING_GOOGLENET
                     Training(event, data);
+                case Events.GUI_VISUALIZATION_ALEXNET
+                    Visualization(event);
+                case Events.GUI_VISUALIZATION_GOOGLENET
+                    Visualization(event);
             end     
         end
     end

@@ -98,9 +98,9 @@ classdef GoTrainingGUI
             
             switch app.modo
                 case 'alexnet'
-                    winopen('VehiculosAlexNet/');
+                    Controller.getInstance().execute(Events.GUI_VISUALIZATION_ALEXNET, nan);
                 case 'googlenet'
-                    winopen('VehiculosGoogleNet/');
+                    Controller.getInstance().execute(Events.GUI_VISUALIZATION_GOOGLENET, nan);
             end
         end
         
