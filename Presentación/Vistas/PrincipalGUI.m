@@ -27,7 +27,7 @@ classdef PrincipalGUI
             
             app.TrainingImage = uiimage(panel);
             app.TrainingImage.Position = [90 330 80 80];
-            app.TrainingImage.ImageSource = 'training.svg';
+            app.TrainingImage.ImageSource = 'images/training.svg';
             
             app.TrainingTitle = uilabel(panel);
             app.TrainingTitle.FontSize = 30;
@@ -42,7 +42,7 @@ classdef PrincipalGUI
             
             app.DetectionImage = uiimage(panel);
             app.DetectionImage.Position = [90 130 80 80];
-            app.DetectionImage.ImageSource = 'radar.svg';
+            app.DetectionImage.ImageSource = 'images/radar.svg';
             
             app.DetectionTitle = uilabel(panel);
             app.DetectionTitle.FontSize = 30;
@@ -62,7 +62,7 @@ classdef PrincipalGUI
             app.BackButton.FontSize = 16;
         end
         
-        function TrainingButtonPushed(app, button, event)
+        function TrainingButtonPushed(app, ~, ~)
             switch app.modo
                 case "alexnet"
                     Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
@@ -71,7 +71,7 @@ classdef PrincipalGUI
             end
         end
         
-        function DetectionButtonPushed(app, button, event)
+        function DetectionButtonPushed(app, ~, ~)
             switch app.modo
                 case "alexnet"
                     Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
@@ -80,7 +80,7 @@ classdef PrincipalGUI
             end
         end
         
-        function BackButtonPushed(app, button, event)
+        function BackButtonPushed(~, ~, ~)
             Controller.getInstance().execute(Events.GUI_INICIO, nan);
         end
     end

@@ -56,14 +56,14 @@ classdef DetectionGUI < handle
 
             % Create ButtonPlay
             app.ButtonPlay = uibutton(panel, 'push');
-            app.ButtonPlay.Icon = 'play.svg';
+            app.ButtonPlay.Icon = 'images/play.svg';
             app.ButtonPlay.Enable = 'off';
             app.ButtonPlay.Position = [710 380 40 40];
             app.ButtonPlay.Text = '';
 
             % Create ButtonStop
             app.ButtonStop = uibutton(panel, 'push');
-            app.ButtonStop.Icon = 'stop.svg';
+            app.ButtonStop.Icon = 'images/stop.svg';
             app.ButtonStop.Enable = 'off';
             app.ButtonStop.Position = [800 380 40 40];
             app.ButtonStop.Text = '';
@@ -173,7 +173,7 @@ classdef DetectionGUI < handle
             app.transferIdentified = TransferIdentified();
         end
         
-        function BackButtonPushed(app, button, event)
+        function BackButtonPushed(app, ~, ~)
             
             switch app.mode
                 case 'alexnet'
@@ -183,21 +183,21 @@ classdef DetectionGUI < handle
             end
         end
         
-        function ButtonPlayPushed(app, button, event)
+        function ButtonPlayPushed(app, ~, ~)
             if app.isPlaying
                 app.isPlaying = 0;
-                app.ButtonPlay.Icon = 'play.svg';
+                app.ButtonPlay.Icon = 'images/play.svg';
             else
                 app.isPlaying = 1;
                 app.ButtonPlay.Icon = 'pause.svg';
             end
         end
         
-        function ButtonStopPushed(app, button, event)
+        function ButtonStopPushed(app, ~, ~)
             app.stop = 1;
         end
         
-        function UploadVideoButtonPushed(app, button, event)
+        function UploadVideoButtonPushed(app, ~, ~)
             
             [file,folder] = uigetfile({'*.mp4'});
             rutaEntrada = fullfile(folder, file);
@@ -208,7 +208,7 @@ classdef DetectionGUI < handle
                     v = VideoReader(rutaEntrada);
                     app.ButtonPlay.Enable = true;
                     app.ButtonStop.Enable = true;
-                    NFrames = v.NumberOfFrames;
+                    NFrames = v.NumFrames;
                     frame = 0;
                     
                     switch app.mode
@@ -283,11 +283,11 @@ classdef DetectionGUI < handle
                               Recorte = frameRGB(YSupIzda:1:YInfIzda,XSupIzda:1:XSupDcha,:);
                               RecorteBW = BWMagFlow(YSupIzda:1:YInfIzda,XSupIzda:1:XSupDcha,:);
                               
-                              [aar, bbr, ssr] = size(Recorte);
+                              [~, ~, ~] = size(Recorte);
                               R = imresize(Recorte, [sz(1) sz(2)], 'bilinear');
 
                               [label, Error]  = classify(netTransfer,R);
-                              [MEt,MaxEt] = max(Error);
+                              [MEt,~] = max(Error);
 
                               Orientacion = RPropOrientacion(h).MeanIntensity;
 

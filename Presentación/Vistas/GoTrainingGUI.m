@@ -35,17 +35,17 @@ classdef GoTrainingGUI
             % Create UploadImage
             app.UploadImage = uiimage(panel);
             app.UploadImage.Position = [90 350 80 80];
-            app.UploadImage.ImageSource = 'upload.svg';
+            app.UploadImage.ImageSource = 'images/upload.svg';
 
             % Create VisualImage
             app.VisualImage = uiimage(panel);
             app.VisualImage.Position = [90 220 80 80];
-            app.VisualImage.ImageSource = 'presentation.svg';
+            app.VisualImage.ImageSource = 'images/presentation.svg';
 
             % Create TrainingImage
             app.TrainingImage = uiimage(panel);
             app.TrainingImage.Position = [90 90 80 80];
-            app.TrainingImage.ImageSource = 'training.svg';
+            app.TrainingImage.ImageSource = 'images/training.svg';
 
             % Create UploadTitle
             app.UploadTitle = uilabel(panel);
@@ -94,17 +94,17 @@ classdef GoTrainingGUI
             app.TrainingButton.FontSize = 15;
         end
         
-        function VisualButtonPushed(app, button, event)
+        function VisualButtonPushed(app, ~, ~)
             
             switch app.modo
                 case 'alexnet'
-                    Controller.getInstance().execute(Events.GUI_VISUALIZATION_ALEXNET, nan);
+                    Controller.getInstance().execute(Events.VISUALIZATION_ALEXNET, nan);
                 case 'googlenet'
-                    Controller.getInstance().execute(Events.GUI_VISUALIZATION_GOOGLENET, nan);
+                    Controller.getInstance().execute(Events.VISUALIZATION_GOOGLENET, nan);
             end
         end
         
-        function UploadButtonPushed(app, button, event)
+        function UploadButtonPushed(app, ~, ~)
             switch app.modo
                 case "alexnet"
                     Controller.getInstance().execute(Events.GUI_UPLOAD_ALEXNET, nan);
@@ -113,7 +113,7 @@ classdef GoTrainingGUI
             end
         end
         
-        function TrainingButtonPushed(app, button, event)
+        function TrainingButtonPushed(app, ~, ~)
             switch app.modo
                 case "alexnet"
                     Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
@@ -122,7 +122,7 @@ classdef GoTrainingGUI
             end
         end
         
-        function BackButtonPushed(app, button, event)
+        function BackButtonPushed(app, ~, ~)
             switch app.modo
                 case "alexnet"
                     Controller.getInstance().execute(Events.GUI_PRINCIPAL_ALEXNET, nan);

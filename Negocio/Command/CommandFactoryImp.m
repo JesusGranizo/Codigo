@@ -7,10 +7,14 @@ classdef CommandFactoryImp
                     Training(event, data);
                 case Events.TRAINING_GOOGLENET
                     Training(event, data);
-                case Events.GUI_VISUALIZATION_ALEXNET
+                case Events.VISUALIZATION_ALEXNET
                     Visualization(event);
-                case Events.GUI_VISUALIZATION_GOOGLENET
+                case Events.VISUALIZATION_GOOGLENET
                     Visualization(event);
+                case Events.SEND_TO_THINGSPEAK_ALEXNET
+                    ThingSpeakSA(event, data);
+                case Events.SEND_TO_THINGSPEAK_GOOGLENET
+                    ThingSpeakSA(event, data);
             end     
         end
     end

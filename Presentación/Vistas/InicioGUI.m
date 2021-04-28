@@ -20,7 +20,7 @@ classdef InicioGUI
             
             app.AlexNetImage = uiimage(panel);
             app.AlexNetImage.Position = [90 330 80 80];
-            app.AlexNetImage.ImageSource = 'alexnet.svg';
+            app.AlexNetImage.ImageSource = 'images/alexnet.svg';
             
             app.AlexNetTitle = uilabel(panel);
             app.AlexNetTitle.FontSize = 30;
@@ -35,7 +35,7 @@ classdef InicioGUI
             
             app.GoogleImage = uiimage(panel);
             app.GoogleImage.Position = [90 130 80 80];
-            app.GoogleImage.ImageSource = 'google.svg';
+            app.GoogleImage.ImageSource = 'images/google.svg';
             
             app.GoogleTitle = uilabel(panel);
             app.GoogleTitle.FontSize = 30;

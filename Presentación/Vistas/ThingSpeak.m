@@ -213,7 +213,7 @@ classdef ThingSpeak < handle
             % Create Map
             app.Map = uiimage(panel);
             app.Map.Position = [381 105 571 360];
-            app.Map.ImageSource = 'CamaraAll.png';
+            app.Map.ImageSource = 'images/CamaraAll.png';
             
             waitbar(0.38,f,'Please wait...');
             app.BusCount.Text = sprintf('%.0f',app.transferIdentified.BusCount);
@@ -247,14 +247,14 @@ classdef ThingSpeak < handle
         function SendtoThingSpeakButtonPushed(app, ~, ~)
             id = app.ChannelsIdMap(app.CamaraDropDown.Value);
             date = app.DatePicker.Value;
-            t = append(num2str(year(date),'%04.f'), '-', num2str(month(date),'%02.f'), '-', num2str(day(date),'%02.f'), ' ', num2str(app.SpinnerH.Value,'%02.f'), ':', num2str(app.SpinnerM.Value,'%02.f'), ':', num2str(app.SpinnerS.Value,'%02.f'));
-            response = webwrite("http://api.brogame.es/thingspeak", "camera", id, "bus", app.transferIdentified.BusCount, "truck", app.transferIdentified.CamionCount, "car", app.transferIdentified.DelanteraCount + app.transferIdentified.TraseraCount, "moto", app.transferIdentified.MotoCount, "date", t);
-            if(response.error)
-                msgbox(response.message, 'Error', 'error');
-            else
-                msgbox(response.message, 'Completado', 'help');
-                pause(2);
-                %web(response.tweet)
+            time = append(num2str(app.SpinnerH.Value,'%02.f'), ':', num2str(app.SpinnerM.Value,'%02.f'), ':', num2str(app.SpinnerS.Value,'%02.f'));
+            transferThingspeak = TransferThingSpeak(id, app.transferIdentified.BusCount, app.transferIdentified.CamionCount, app.transferIdentified.DelanteraCount + app.transferIdentified.TraseraCount, app.transferIdentified.MotoCount, date, time);
+            
+            switch app.mode
+                case 'alexnet'
+                    Controller.getInstance().execute(Events.SEND_TO_THINGSPEAK_ALEXNET, transferThingspeak);
+                case 'googlenet'
+                    Controller.getInstance().execute(Events.SEND_TO_THINGSPEAK_GOOGLENET, transferThingspeak);
             end
         end
         
@@ -287,7 +287,7 @@ classdef ThingSpeak < handle
         
         function getCoordinates(app, camera)
             image = app.ChannelsImageKeyMap(camera);
-            app.Map.ImageSource = image;
+            app.Map.ImageSource = append('images/', image);
         end
             
     end

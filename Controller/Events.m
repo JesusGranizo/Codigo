@@ -14,21 +14,24 @@ classdef Events
         GUI_UPLOAD_ALEXNET = 30;
         GUI_UPLOAD_GOOGLENET = 31;
         
-        GUI_VISUALIZATION_ALEXNET = 40;
-        GUI_VISUALIZATION_GOOGLENET = 41;
+        GUI_TRAINING_ALEXNET = 40;
+        GUI_TRAINING_GOOGLENET = 41;
         
-        GUI_TRAINING_ALEXNET = 50;
-        GUI_TRAINING_GOOGLENET = 51;
+        GUI_VEHICLE_DETECTION_ALEXNET = 50;
+        GUI_VEHICLE_DETECTION_GOOGLENET = 51;
         
-        GUI_VEHICLE_DETECTION_ALEXNET = 60;
-        GUI_VEHICLE_DETECTION_GOOGLENET = 61;
-        
-        GUI_THINGSPEAK_ALEXNET = 70;
-        GUI_THINGSPEAK_GOOGLENET = 71;
+        GUI_THINGSPEAK_ALEXNET = 60;
+        GUI_THINGSPEAK_GOOGLENET = 61;
         
         %%%%%%%%%%%%%%%%%%   COMMANDS   %%%%%%%%%%%%%%%%%%%%
         TRAINING_ALEXNET = 100;
         TRAINING_GOOGLENET = 101;
+        
+        VISUALIZATION_ALEXNET = 110;
+        VISUALIZATION_GOOGLENET = 111;
+        
+        SEND_TO_THINGSPEAK_ALEXNET = 120;
+        SEND_TO_THINGSPEAK_GOOGLENET = 121;
         
         %%%%%%%%%%%%%%%%%%%%%   MODE   %%%%%%%%%%%%%%%%%%%%%
         MODE_ALEXNET = 200;
