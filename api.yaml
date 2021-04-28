@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: API ThingSpeak
+  description: |-
+    Documentación con los endpoints disponibles para el manejo de datos de los
+    vehículos detectados con las redes AlexNet y GoogleNet:
+  version: 1.0.0
+servers:
+  - url: http://api.brogame.es/
+security:
+  - ApiKeyAuth: []
+paths:
+  /thingspeak:
+    get:
+      summary: Lista con los datos de los vehiculos seleccionados.
+      tags:
+        - Datos de Vehículos
+      security: []
+      description: |-
+        Devuelve la lista de los vehículos disponibles con los filtros seleccionados
+        por el usuario, cada uno de ellos se deben indicar de forma similar a SQL:
+        - **Select:** Puedes indicar los nombres de los campos que deseas obtener,
+        con asterisco (*) indicas que desas obtener todos.
+        - **Where:** Te permite indicar que los datos obtenidos sean aquellos que
+        cumplan con los requisitos indicados en estr campo.
+        - **Order:** Te permite indicar el orden en el que serán devueltos los
+        datos del servidor.
+      parameters:
+        - name: select
+          in: query
+          description: Datos a obtener
+          required: true
+          schema:
+            type: string
+        - name: where
+          in: query
+          description: Reglas que deben cumplir los datos
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: Orden de los datos de salida
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: JSON con los datos requeridos por el usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DatosVehiculosGetOk'
+        "400":
+          description: JSON indicando error en la petición realizada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Lista con los datos de los vehiculos seleccionados.
+      tags:
+        - Datos de Vehículos
+      description: |-
+        Permite la escrtitura de datos en el servidor de los distintos campos
+        indicados a continuación, nop permite la inserción de dos datos para
+        la misma cámara y fecha.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                camera:
+                  type: integer
+                  example: 1
+                bus:
+                  type: integer
+                  example: 5
+                truck:
+                  type: integer
+                  example: 8
+                car:
+                  type: integer
+                  example: 42
+                moto:
+                  type: integer
+                  example: 13
+                date:
+                  type: string
+                  example: 1
+      responses:
+        "200":
+          description: JSON con los datos requeridos por el usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DatosVehiculosGetOk'
+        "400":
+          description: JSON indicando error en la petición realizada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apiKey
+  schemas:
+    DatoVehiculo:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        camera:
+          type: integer
+          example: 2
+        bus:
+          type: integer
+          example: 14
+        truck:
+          type: integer
+          example: 67
+        car:
+          type: integer
+          example: 42
+        moto:
+          type: integer
+          example: 21
+        date:
+          type: string
+          example: 2021-10-04 10:05:13
+    DatosVehiculosGetOk:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: false
+        datos:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatoVehiculo'
+    Error:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        datos:
+          type: array
+          example: []
+        message:
+          type: string
+          example: Error en la petición
