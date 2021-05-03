@@ -17,6 +17,7 @@ classdef MenuGUI
         GoogleNetImageVisualization     matlab.ui.container.TreeNode
         GoogleNetModelTraining          matlab.ui.container.TreeNode
         GoogleNetVehicleDetection       matlab.ui.container.TreeNode
+        Queries                         matlab.ui.container.TreeNode
     end
     
     methods (Access = private)
@@ -40,6 +41,8 @@ classdef MenuGUI
                 Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Vehicle Detection" &&  app.Menu.SelectedNodes.Parent.Text == "AlexNet")
                 Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_ALEXNET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Consulta de datos" &&  app.Menu.SelectedNodes.Parent.Text == "AlexNet")
+                Controller.getInstance().execute(Events.GUI_QUERIES, nan);
                 
             elseif (app.Menu.SelectedNodes.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_PRINCIPAL_GOOGLENET, nan);
@@ -53,6 +56,8 @@ classdef MenuGUI
                 Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Vehicle Detection" &&  app.Menu.SelectedNodes.Parent.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_VEHICLE_DETECTION_GOOGLENET, nan);
+            elseif (app.Menu.SelectedNodes.Text == "Consulta de datos" &&  app.Menu.SelectedNodes.Parent.Text == "GoogleNet")
+                Controller.getInstance().execute(Events.GUI_QUERIES, nan);
             end
         end
     end
@@ -86,6 +91,9 @@ classdef MenuGUI
             app.AlexNetVehicleDetection = uitreenode(app.AlexNet);
             app.AlexNetVehicleDetection.Text = 'Vehicle Detection';
             
+            app.Queries = uitreenode(app.AlexNet);
+            app.Queries.Text = 'Consulta de datos';
+            
             app.GoogleNet = uitreenode(app.Inicio);
             app.GoogleNet.Text = 'GoogleNet';
             
@@ -103,6 +111,9 @@ classdef MenuGUI
             
             app.GoogleNetVehicleDetection = uitreenode(app.GoogleNet);
             app.GoogleNetVehicleDetection.Text = 'Vehicle Detection';
+            
+            app.Queries = uitreenode(app.GoogleNet);
+            app.Queries.Text = 'Consulta de datos';
             
             expand(app.Menu, 'all');
         end

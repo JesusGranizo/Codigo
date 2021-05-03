@@ -78,6 +78,9 @@ classdef DispatcherImp
                     ThingSpeak(app.Principal, Events.MODE_ALEXNET, data);
                 case Events.GUI_THINGSPEAK_GOOGLENET
                     ThingSpeak(app.Principal, Events.MODE_GOOGLENET, data);
+                    
+                case Events.GUI_QUERIES
+                    QueriesGUI(app.Principal);
             end
         end
     end

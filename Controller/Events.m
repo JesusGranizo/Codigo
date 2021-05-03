@@ -23,6 +23,8 @@ classdef Events
         GUI_THINGSPEAK_ALEXNET = 60;
         GUI_THINGSPEAK_GOOGLENET = 61;
         
+        GUI_QUERIES = 70;
+        
         %%%%%%%%%%%%%%%%%%   COMMANDS   %%%%%%%%%%%%%%%%%%%%
         TRAINING_ALEXNET = 100;
         TRAINING_GOOGLENET = 101;
