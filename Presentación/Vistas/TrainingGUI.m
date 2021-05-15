@@ -43,13 +43,13 @@ classdef TrainingGUI
             app.ResetButton = uibutton(panel, 'push');
             app.ResetButton.FontSize = 18;
             app.ResetButton.Position = [735 60 140 40];
-            app.ResetButton.Text = 'Reset';
+            app.ResetButton.Text = 'Resetear';
 
             % Create StartTrainingButton
             app.StartTrainingButton = uibutton(panel, 'push');
             app.StartTrainingButton.FontSize = 18;
             app.StartTrainingButton.Position = [547 60 140 40];
-            app.StartTrainingButton.Text = 'Start Training';
+            app.StartTrainingButton.Text = 'Empezar';
 
             % Create DropDown3
             app.DropDown3 = uidropdown(panel);
@@ -77,7 +77,7 @@ classdef TrainingGUI
             app.Label12 = uilabel(panel);
             app.Label12.FontSize = 18;
             app.Label12.Position = [539 260 248 23];
-            app.Label12.Text = 'Validation Frequency:';
+            app.Label12.Text = 'Frecuencia de validación:';
 
             % Create EditField1
             app.EditField1 = uieditfield(panel, 'text');
@@ -96,7 +96,7 @@ classdef TrainingGUI
             app.Label10 = uilabel(panel);
             app.Label10.FontSize = 18;
             app.Label10.Position = [539 310 248 23];
-            app.Label10.Text = 'Iterations:';
+            app.Label10.Text = 'Iteraciones:';
 
             % Create Spinner2
             app.Spinner2 = uispinner(panel);
@@ -138,7 +138,7 @@ classdef TrainingGUI
             app.Label7 = uilabel(panel);
             app.Label7.FontSize = 18;
             app.Label7.Position = [52 110 200 23];
-            app.Label7.Text = 'Display network weights';
+            app.Label7.Text = 'Mostrar pesos de red';
 
             % Create CheckBox4
             app.CheckBox4 = uicheckbox(panel);
@@ -150,7 +150,7 @@ classdef TrainingGUI
             app.Label6 = uilabel(panel);
             app.Label6.FontSize = 18;
             app.Label6.Position = [52 160 124 23];
-            app.Label6.Text = {'Display Layers'; ''};
+            app.Label6.Text = {'Mostrar capas'; ''};
 
             % Create CheckBox3
             app.CheckBox3 = uicheckbox(panel);
@@ -162,7 +162,7 @@ classdef TrainingGUI
             app.Label5 = uilabel(panel);
             app.Label5.FontSize = 18;
             app.Label5.Position = [52 210 98 23];
-            app.Label5.Text = 'Display Net';
+            app.Label5.Text = 'Mostrar red';
 
             % Create DropDown2
             app.DropDown2 = uidropdown(panel);
@@ -218,7 +218,7 @@ classdef TrainingGUI
             app.Label14 = uilabel(panel);
             app.Label14.FontSize = 18;
             app.Label14.Position = [539 160 248 23];
-            app.Label14.Text = 'Initial Learn Rate';
+            app.Label14.Text = 'Ratio inicial de aprendizaje';
 
             % Create DropDown4
             app.DropDown4 = uidropdown(panel);
@@ -231,7 +231,7 @@ classdef TrainingGUI
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.FontSize = 16;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Back';
+            app.BackButton.Text = 'Volver';
 
             % Create Title
             app.Title = uilabel(panel);
@@ -240,9 +240,9 @@ classdef TrainingGUI
             app.Title.Position = [40 480 700 70];
             switch app.modo
                 case "alexnet"
-                    app.Title.Text = 'Training parameters (AlexNet)';
+                    app.Title.Text = 'Parámetros (AlexNet)';
                 case "googlenet"
-                    app.Title.Text = 'Training parameters (GoogleNet)';
+                    app.Title.Text = 'Parámetros (GoogleNet)';
             end
             
             app.Spinner1.ValueChangedFcn = @app.SpinnerValueChanged;

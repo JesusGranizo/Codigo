@@ -27,9 +27,9 @@ classdef GoTrainingGUI
             app.Titulo.Position = [40 480 500 70];
             switch app.modo
                 case "alexnet"
-                    app.Titulo.Text = 'Training (AlexNet)';
+                    app.Titulo.Text = 'Entrenar red (AlexNet)';
                 case "googlenet"
-                    app.Titulo.Text = 'Training (GoogleNet)';
+                    app.Titulo.Text = 'Entrenar red (GoogleNet)';
             end
 
             % Create UploadImage
@@ -51,25 +51,25 @@ classdef GoTrainingGUI
             app.UploadTitle = uilabel(panel);
             app.UploadTitle.FontSize = 30;
             app.UploadTitle.Position = [214 371 284 39];
-            app.UploadTitle.Text = 'Images Upload';
+            app.UploadTitle.Text = 'Subir imágenes';
 
             % Create VisualTitle
             app.VisualTitle = uilabel(panel);
             app.VisualTitle.FontSize = 30;
             app.VisualTitle.Position = [214 241 278 39];
-            app.VisualTitle.Text = 'Images Visualization';
+            app.VisualTitle.Text = 'Ver imágenes';
 
             % Create TrainingTitle
             app.TrainingTitle = uilabel(panel);
             app.TrainingTitle.FontSize = 30;
             app.TrainingTitle.Position = [214 111 181 39];
-            app.TrainingTitle.Text = 'Start Training';
+            app.TrainingTitle.Text = 'Entrenar';
 
             % Create BackButton
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Atrás';
+            app.BackButton.Text = 'Volver';
             app.BackButton.FontSize = 15;
 
             % Create UploadButton

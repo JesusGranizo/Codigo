@@ -34,7 +34,7 @@ classdef DetectionGUI < handle
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.FontSize = 16;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Back';
+            app.BackButton.Text = 'Volver';
 
             % Create Title
             app.Title = uilabel(panel);
@@ -43,16 +43,16 @@ classdef DetectionGUI < handle
             app.Title.Position = [40 480 700 70];
             switch app.mode
                 case "alexnet"
-                    app.Title.Text = 'Vehicle Detection (AlexNet)';
+                    app.Title.Text = 'Detección de vehículos (AlexNet)';
                 case "googlenet"
-                    app.Title.Text = 'Vehicle Detection (GoogleNet)';
+                    app.Title.Text = 'Detección de vehículos (GoogleNet)';
             end
 
             % Create UploadVideoButton
             app.UploadVideoButton = uibutton(panel, 'push');
             app.UploadVideoButton.FontSize = 16;
             app.UploadVideoButton.Position = [646 324 258 40];
-            app.UploadVideoButton.Text = 'Upload Video';
+            app.UploadVideoButton.Text = 'Cargar vídeo';
 
             % Create ButtonPlay
             app.ButtonPlay = uibutton(panel, 'push');

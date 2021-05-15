@@ -43,7 +43,7 @@ classdef ThingSpeak < handle
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.FontSize = 16;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Back';
+            app.BackButton.Text = 'Volver';
 
             % Create Title
             app.Title = uilabel(panel);
@@ -177,19 +177,19 @@ classdef ThingSpeak < handle
             app.sLabel.Position = [260 91 25 22];
             app.sLabel.Text = 's';
 
-            waitbar(0.16,f,'Please wait...');
+            waitbar(0.16,f,'Espere por favor...');
             % Create SendtoThingSpeakButton
             app.SendtoThingSpeakButton = uibutton(panel, 'push');
             app.SendtoThingSpeakButton.FontSize = 16;
             app.SendtoThingSpeakButton.Position = [428 52 217 54];
-            app.SendtoThingSpeakButton.Text = {'Send to ThingSpeak'; ''};
+            app.SendtoThingSpeakButton.Text = {'Enviar'; ''};
             app.SendtoThingSpeakButton.Enable = false;
 
             % Create CancelButton
             app.CancelButton = uibutton(panel, 'push');
             app.CancelButton.FontSize = 16;
             app.CancelButton.Position = [667 52 217 54];
-            app.CancelButton.Text = 'Cancel';
+            app.CancelButton.Text = 'Cancelar';
 
             % Create LabelLocation
             app.LabelLocation = uilabel(panel);
@@ -209,33 +209,33 @@ classdef ThingSpeak < handle
             app.CamaraDropDown.FontSize = 16;
             app.CamaraDropDown.Position = [185 52 197 22];
             
-            waitbar(0.15,f,'Please wait...');
+            waitbar(0.15,f,'Espere por favor...');
             % Create Map
             app.Map = uiimage(panel);
             app.Map.Position = [381 105 571 360];
             app.Map.ImageSource = 'images/CamaraAll.png';
             
-            waitbar(0.38,f,'Please wait...');
+            waitbar(0.38,f,'Espere por favor...');
             app.BusCount.Text = sprintf('%.0f',app.transferIdentified.BusCount);
             app.CamionesCount.Text = sprintf('%.0f',app.transferIdentified.CamionCount);
             app.MotosCount.Text = sprintf('%.0f',app.transferIdentified.MotoCount);
             app.DelanteraCount.Text = sprintf('%.0f',app.transferIdentified.DelanteraCount);
             app.TraseraCount.Text = sprintf('%.0f',app.transferIdentified.TraseraCount);
             
-            waitbar(0.51,f,'Please wait...');
+            waitbar(0.51,f,'Espere por favor...');
             app.createMaps();
             
-            waitbar(0.75,f,'Please wait...');
+            waitbar(0.75,f,'Espere por favor...');
             app.getCoordinates(app.CamaraDropDown.Value);
             
-            waitbar(0.87,f,'Please wait...');
+            waitbar(0.87,f,'Espere por favor...');
             date = datetime('now');
             app.DatePicker.Value = datetime([year(date), month(date), day(date)]);
             app.SpinnerH.Value = hour(date);
             app.SpinnerM.Value = minute(date);
             app.SpinnerS.Value = fix(second(date));
             
-            waitbar(0.94,f,'Please wait...');
+            waitbar(0.94,f,'Espere por favor...');
             app.SendtoThingSpeakButton.ButtonPushedFcn = @app.SendtoThingSpeakButtonPushed;
             app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.CancelButton.ButtonPushedFcn = @app.BackButtonPushed;
@@ -259,7 +259,7 @@ classdef ThingSpeak < handle
         end
         
         function CamaraDropDownValueChanged(app, ~, ~)
-            if(strcmp(app.CamaraDropDown.Value, 'Select camera'))
+            if(strcmp(app.CamaraDropDown.Value, 'Seleccione cámara'))
                 app.SendtoThingSpeakButton.Enable = false;
             else
                 app.SendtoThingSpeakButton.Enable = true;
@@ -277,7 +277,7 @@ classdef ThingSpeak < handle
         end
         
         function createMaps(app)
-            keySet = {'Select camera', '1 - Moncloa', '2 - Villaverde', '3 - Usera', '4 - A2 Km52', '5 - Moratalaz', '6 - Guadalajara', '7 - Atocha', '8 - M45'};
+            keySet = {'Seleccione cámara', '1 - Moncloa', '2 - Villaverde', '3 - Usera', '4 - A2 Km52', '5 - Moratalaz', '6 - Guadalajara', '7 - Atocha', '8 - M45'};
             app.CamaraDropDown.Items = keySet;
             valueSet = {'', '1', '2', '3', '4', '5', '6', '7', '8'};
             app.ChannelsIdMap = containers.Map(keySet,valueSet);

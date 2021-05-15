@@ -23,9 +23,9 @@ classdef PrincipalGUI
             app.Titulo.Position = [40 480 500 70];
             switch app.modo
                 case "alexnet"
-                    app.Titulo.Text = 'Red Alex Net';
+                    app.Titulo.Text = 'Red AlexNet';
                 case "googlenet"
-                    app.Titulo.Text = 'Red Google Net';
+                    app.Titulo.Text = 'Red GoogleNet';
             end
             
             app.TrainingImage = uiimage(panel);

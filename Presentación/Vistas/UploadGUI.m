@@ -106,7 +106,7 @@ classdef UploadGUI
             app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.BackButton.FontSize = 15;
             app.BackButton.Position = [770 485 150 40];
-            app.BackButton.Text = 'Back';
+            app.BackButton.Text = 'Volver';
 
             % Create Title
             app.Title = uilabel(panel);
@@ -115,9 +115,9 @@ classdef UploadGUI
             app.Title.Position = [40 480 500 70];
             switch app.modo
                 case "alexnet"
-                    app.Title.Text = 'Upload Image (AlexNet)';
+                    app.Title.Text = 'Subir imágenes (AlexNet)';
                 case "googlenet"
-                    app.Title.Text = 'Upload Image (GoogleNet)';
+                    app.Title.Text = 'Subir imágenes (GoogleNet)';
             end
 
             % Create Image
@@ -129,7 +129,7 @@ classdef UploadGUI
             app.TipoDropDownLabel.HorizontalAlignment = 'right';
             app.TipoDropDownLabel.FontSize = 15;
             app.TipoDropDownLabel.Position = [585 330 49 26];
-            app.TipoDropDownLabel.Text = 'Tipe:';
+            app.TipoDropDownLabel.Text = 'Tipo:';
             
             % Create DirectionDropDown
             app.DirectionDropDown = uidropdown(panel);
@@ -150,14 +150,14 @@ classdef UploadGUI
             app.DirectionDropDownLabel.HorizontalAlignment = 'right';
             app.DirectionDropDownLabel.FontSize = 15;
             app.DirectionDropDownLabel.Position = [544 267 90 26];
-            app.DirectionDropDownLabel.Text = 'Direction:';
+            app.DirectionDropDownLabel.Text = 'Direccion:';
 
             % Create ResetButton
             app.ResetButton = uibutton(panel, 'push');
             app.ResetButton.BackgroundColor = [0.9608 0.9608 0.9608];
             app.ResetButton.FontSize = 15;
             app.ResetButton.Position = [521 113 137 33];
-            app.ResetButton.Text = 'Reset';
+            app.ResetButton.Text = 'Resetear';
             app.ResetButton.ButtonPushedFcn = @app.ResetButtonPushed;
 
             % Create UploadImageButton
@@ -165,14 +165,14 @@ classdef UploadGUI
             app.UploadImageButton.BackgroundColor = [0.9608 0.9608 0.9608];
             app.UploadImageButton.FontSize = 15;
             app.UploadImageButton.Position = [672 113 137 33];
-            app.UploadImageButton.Text = 'Upload Image';
+            app.UploadImageButton.Text = 'Subir imagen';
             app.UploadImageButton.Enable = false;
             
             % Create SelectImageButton
             app.SelectImageButton = uibutton(panel, 'push');
             app.SelectImageButton.FontSize = 15;
             app.SelectImageButton.Position = [173 145 138 33];
-            app.SelectImageButton.Text = 'Select Image';
+            app.SelectImageButton.Text = 'Seleccionar imagen';
             app.SelectImageButton.ButtonPushedFcn = @app.SelectImageButtonPushed;
             app.UploadImageButton.ButtonPushedFcn = @app.UploadImageButtonPushed;
         end
