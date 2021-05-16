@@ -38,7 +38,7 @@ classdef ThingSpeak < handle
     
     methods (Access = private)
         function createComponents(app, panel)
-            f = waitbar(0,'Loading...', 'WindowStyle', 'modal');
+            f = waitbar(0,'Cargando...', 'WindowStyle', 'modal');
             % Create BackButton
             app.BackButton = uibutton(panel, 'push');
             app.BackButton.FontSize = 16;
@@ -240,7 +240,7 @@ classdef ThingSpeak < handle
             app.BackButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.CancelButton.ButtonPushedFcn = @app.BackButtonPushed;
             app.CamaraDropDown.ValueChangedFcn = @app.CamaraDropDownValueChanged;
-            waitbar(1,f,'Please wait...');
+            waitbar(1,f,'Espere por favor...');
             close(f);
         end
         

@@ -126,8 +126,13 @@ classdef QueriesGUI < handle
         end
         
         function borrarTabla(app, ~, ~)
-            %app.Table.ColumnName = {'Cámara'; 'Buses'; 'Camiones'; 'Coches'; 'Motos'; 'Fecha'};
-            %app.Table.Data={};
+            app.Table.ColumnName = {'Cámara'; 'Buses'; 'Camiones'; 'Coches'; 'Motos'; 'Fecha'};
+            app.Table.Data={};
+            tableData = get(app.UITable,'Data');
+            charLocations = cellfun(@ischar, tableData);
+            tableData(charLocations) = {''};
+            tableData(~charLocations) = {[]};
+            set(app.UITable, 'Data', tableData);
         end
         
         function borrarCamaras(app, ~, ~)

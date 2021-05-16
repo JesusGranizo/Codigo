@@ -172,7 +172,7 @@ classdef UploadGUI
             app.SelectImageButton = uibutton(panel, 'push');
             app.SelectImageButton.FontSize = 15;
             app.SelectImageButton.Position = [173 145 138 33];
-            app.SelectImageButton.Text = 'Seleccionar imagen';
+            app.SelectImageButton.Text = 'Seleccionar';
             app.SelectImageButton.ButtonPushedFcn = @app.SelectImageButtonPushed;
             app.UploadImageButton.ButtonPushedFcn = @app.UploadImageButtonPushed;
         end
