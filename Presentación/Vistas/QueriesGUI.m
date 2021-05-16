@@ -92,22 +92,22 @@ classdef QueriesGUI < handle
             app.SpinnerMinBus.Enable = false;
             app.SpinnerMaxBus.Enable = false;
             app.SpinnerMinBus.Value = 0;
-            app.SpinnerMaxBus.Value = 10;
+            app.SpinnerMaxBus.Value = 1000;
             
             app.SpinnerMinCar.Enable = false;
             app.SpinnerMaxCar.Enable = false;
             app.SpinnerMinCar.Value = 0;
-            app.SpinnerMaxCar.Value = 10;
+            app.SpinnerMaxCar.Value = 1000;
             
             app.SpinnerMinMoto.Enable = false;
             app.SpinnerMaxMoto.Enable = false;
             app.SpinnerMinMoto.Value = 0;
-            app.SpinnerMaxMoto.Value = 10;
+            app.SpinnerMaxMoto.Value = 1000;
             
             app.SpinnerMinTruck.Enable = false;
             app.SpinnerMaxTruck.Enable = false;
             app.SpinnerMinTruck.Value = 0;
-            app.SpinnerMaxTruck.Value = 10;
+            app.SpinnerMaxTruck.Value = 1000;
             
             date = datetime('now');
             app.FechaFinalDatePicker.Value = datetime([year(date), month(date), day(date)]);
@@ -126,8 +126,9 @@ classdef QueriesGUI < handle
         end
         
         function borrarTabla(app, ~, ~)
-            %app.Table.ColumnName = {'Cámara'; 'Buses'; 'Camiones'; 'Coches'; 'Motos'; 'Fecha'};
-            %app.Table.Data={};
+            app.Table.ColumnSortable = true;
+            app.Table.Position = [521 80 422 410];
+            app.Table.Data={};
         end
         
         function borrarCamaras(app, ~, ~)
@@ -230,7 +231,7 @@ classdef QueriesGUI < handle
             
             date = app.FechaFinalDatePicker.Value;
             time = append(num2str(app.SpinnerFinalHour.Value,'%02.f'), ':', num2str(app.SpinnerFinalMin.Value,'%02.f'), ':', num2str(app.SpinnerFinalSec.Value,'%02.f'));
-            url = append(url, "date<='", num2str(year(date),'%04.f'), '-', num2str(month(date),'%02.f'), '-', num2str(day(date),'%02.f'), ' ', time, "' and "); 
+            url = append(url, "date<='", num2str(year(date),'%04.f'), '-', num2str(month(date),'%02.f'), '-', num2str(day(date),'%02.f'), ' ', time, "' and ("); 
             
             for i = 1: length(app.Listcameras.Value)
                 str = app.Listcameras.Value(i);
@@ -241,17 +242,57 @@ classdef QueriesGUI < handle
             
             url = char(url);
             url = url(1:end-4);
-            
+            url = append(url, ')&order=camera');
             data = webread(url);
+            j = 1;
+            app.Table.ColumnName = {'Cámara'};
+            if(isfield(data.datos(1), 'bus'))
+               app.Table.ColumnName(end+1)= {'Buses'};
+               j = j +1;
+            end
+            if(isfield(data.datos(1), 'truck'))
+               app.Table.ColumnName(end+1)= {'Camiones'};
+               j = j +1;
+            end
+            if(isfield(data.datos(1), 'car'))
+               app.Table.ColumnName(end+1)= {'Coches'};
+               j = j +1;
+            end
+            if(isfield(data.datos(1), 'moto'))
+               app.Table.ColumnName(end+1)= {'Motos'};
+               j = j +1;
+            end
+            app.Table.ColumnName(end+1)= {'Fecha'};
+            j = j +1;
+            app.Table.Data = {};
+            if(j < 3)
+                app.Table.ColumnName = {};
+                errordlg('Debes seleccionar al menos un tipo de vehículo','Error');
+                return;
+            end
             
             for i = 1: length(data.datos)
-                row = strings([1,6])
-                row(1) = data.datos(i).camera;
-                row(2) = data.datos(i).bus;
-                row(3) = data.datos(i).truck;
-                row(4) = data.datos(i).car;
-                row(5) = data.datos(i).moto;
-                row(6) = data.datos(i).date;
+                col = 1;
+                row = strings([1,j])
+                row(col) = data.datos(i).camera;
+                col = col + 1;
+                if(isfield(data.datos(i), 'bus'))
+                   row(col) = data.datos(i).bus;
+                   col = col + 1;
+                end
+                if(isfield(data.datos(i), 'truck'))
+                   row(col) = data.datos(i).truck;
+                   col = col + 1;
+                end
+                if(isfield(data.datos(i), 'car'))
+                   row(col) = data.datos(i).car;
+                   col = col + 1;
+                end
+                if(isfield(data.datos(i), 'moto'))
+                   row(col) = data.datos(i).moto;
+                   col = col + 1;
+                end
+                row(col) = data.datos(i).date;
                 app.Table.Data = [app.Table.Data; row];
             end
             
@@ -541,7 +582,6 @@ classdef QueriesGUI < handle
 
             % Create Table
             app.Table = uitable(panel);
-            app.Table.ColumnName = {'Cámara'; 'Buses'; 'Camiones'; 'Coches'; 'Motos'; 'Fecha'};
             app.Table.ColumnSortable = true;
             app.Table.Position = [521 80 422 410];
             

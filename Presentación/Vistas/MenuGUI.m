@@ -35,7 +35,7 @@ classdef MenuGUI
                 Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Subir imágenes" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
                 Controller.getInstance().execute(Events.GUI_UPLOAD_ALEXNET, nan);
-            elseif (app.Menu.SelectedNodes.Text == "Visualizacion de imágenes" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
+            elseif (app.Menu.SelectedNodes.Text == "Visualizar imágenes" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
                 Controller.getInstance().execute(Events.VISUALIZATION_ALEXNET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Entrenar" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "AlexNet")
                 Controller.getInstance().execute(Events.GUI_TRAINING_ALEXNET, nan);
@@ -50,7 +50,7 @@ classdef MenuGUI
                 Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Subir imágenes" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_UPLOAD_GOOGLENET, nan);
-            elseif (app.Menu.SelectedNodes.Text == "Visualizacion de imágenes" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
+            elseif (app.Menu.SelectedNodes.Text == "Visualizar imágenes" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.VISUALIZATION_GOOGLENET, nan);
             elseif (app.Menu.SelectedNodes.Text == "Entrenar" &&  app.Menu.SelectedNodes.Parent.Parent.Text == "GoogleNet")
                 Controller.getInstance().execute(Events.GUI_TRAINING_GOOGLENET, nan);
@@ -83,7 +83,7 @@ classdef MenuGUI
             app.AlexNetImageUpload.Text = 'Subir imágenes';
             
             app.AlexNetImageVisualization = uitreenode(app.AlexNetTraining);
-            app.AlexNetImageVisualization.Text = 'Visualizacion de imágenes';
+            app.AlexNetImageVisualization.Text = 'Visualizar imágenes';
             
             app.AlexNetModelTraining = uitreenode(app.AlexNetTraining);
             app.AlexNetModelTraining.Text = 'Entrenar';
@@ -104,7 +104,7 @@ classdef MenuGUI
             app.GoogleNetImageUpload.Text = 'Subir imágenes';
             
             app.GoogleNetImageVisualization = uitreenode(app.GoogleNetTraining);
-            app.GoogleNetImageVisualization.Text = 'Visualizacion de imágenes';
+            app.GoogleNetImageVisualization.Text = 'Visualizar imágenes';
             
             app.GoogleNetModelTraining = uitreenode(app.GoogleNetTraining);
             app.GoogleNetModelTraining.Text = 'Entrenar';
