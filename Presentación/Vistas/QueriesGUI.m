@@ -4,7 +4,7 @@ classdef QueriesGUI < handle
     
     properties
         BackButton                  matlab.ui.control.Button
-        Titulo                       matlab.ui.control.Label
+        Titulo                      matlab.ui.control.Label
         CheckBoxBus                 matlab.ui.control.CheckBox
         CheckBoxTruck               matlab.ui.control.CheckBox
         CheckBoxCar                 matlab.ui.control.CheckBox
