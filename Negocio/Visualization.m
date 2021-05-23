@@ -11,11 +11,11 @@ classdef Visualization
             switch event
                 case Events.VISUALIZATION_ALEXNET
                     app.modo = "alexnet";
-                    winopen('./VehiculosAlexNet/');
+                    winopen('VehiculosAlexNet/');
                     Controller.getInstance().execute(Events.GUI_GOTRAINING_ALEXNET, nan);
                 case Events.VISUALIZATION_GOOGLENET
                     app.modo = "googlenet";
-                    winopen('./VehiculosGoogleNet/');
+                    winopen('VehiculosGoogleNet/');
                     Controller.getInstance().execute(Events.GUI_GOTRAINING_GOOGLENET, nan);
             end
         end
