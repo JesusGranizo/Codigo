@@ -89,7 +89,7 @@ paths:
                   example: 13
                 date:
                   type: string
-                  example: 1
+                  example: "2021-10-04 10:05:13"
       responses:
         "200":
           description: JSON con los datos requeridos por el usuario
@@ -135,7 +135,7 @@ components:
           example: 21
         date:
           type: string
-          example: 2021-10-04 10:05:13
+          example: "2021-10-04 10:05:13"
     DatosVehiculosGetOk:
       type: object
       properties:

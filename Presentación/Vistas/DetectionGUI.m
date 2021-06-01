@@ -356,11 +356,17 @@ classdef DetectionGUI < handle
             width = (widthTotal * frame) / totalFrames;
             app.Progress.Position = [0, 0, width, 10];
             
-            app.BusCount.Text = sprintf('%.0f',app.transferIdentified.BusCount);
-            app.CamionesCount.Text = sprintf('%.0f',app.transferIdentified.CamionCount);
-            app.MotosCount.Text = sprintf('%.0f',app.transferIdentified.MotoCount);
-            app.DelanteraCount.Text = sprintf('%.0f',app.transferIdentified.DelanteraCount);
-            app.TraseraCount.Text = sprintf('%.0f',app.transferIdentified.TraseraCount);
+            bus = length(app.transferIdentified.BusIdentified) + app.transferIdentified.BusCount;
+            camion = app.transferIdentified.CamionCount + length(app.transferIdentified.CamionIdentified);
+            moto = app.transferIdentified.MotoCount + length(app.transferIdentified.MotoIdentified);
+            delantera = app.transferIdentified.DelanteraCount + length(app.transferIdentified.DelanteraIdentified);
+            trasera = app.transferIdentified.TraseraCount + length(app.transferIdentified.TraseraIdentified);
+            
+            app.BusCount.Text = sprintf('%.0f', bus);
+            app.CamionesCount.Text = sprintf('%.0f', camion);
+            app.MotosCount.Text = sprintf('%.0f', moto);
+            app.DelanteraCount.Text = sprintf('%.0f', delantera);
+            app.TraseraCount.Text = sprintf('%.0f', trasera);
         end
     end
     
